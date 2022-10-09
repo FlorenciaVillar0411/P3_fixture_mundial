@@ -54,7 +54,7 @@ namespace WebMVC.Controllers
             }
             catch {
 
-                ViewBag.Error = "error";
+                ViewBag.Error = "Error";
                 return View();
             }
         }

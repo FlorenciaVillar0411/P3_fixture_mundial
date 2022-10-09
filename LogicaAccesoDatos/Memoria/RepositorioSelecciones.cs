@@ -1,8 +1,7 @@
-﻿using ObligatorioP3;
-using LogicaNegocio.InterfacesRepositorios;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using LogicaNegocio.InterfacesRepositorios;
+using LogicaNegocio.Dominio;
 
 namespace LogicaAccesoDatos.Memoria
 {

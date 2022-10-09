@@ -1,10 +1,9 @@
 ﻿using System;
-using ObligatorioP3;
 using System.Collections.Generic;
 using System.Text;
 using LogicaNegocio.InterfacesDominio;
 
-namespace LogicaNegocio
+namespace LogicaNegocio.Dominio
 {
     public class Pais : IValidacion
     {

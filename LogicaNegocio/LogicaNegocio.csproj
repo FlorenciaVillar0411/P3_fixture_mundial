@@ -6,8 +6,10 @@
 
   <ItemGroup>
     <None Remove="Dominio\" />
+    <None Remove="InterfacesRepositorios\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dominio\" />
+    <Folder Include="InterfacesRepositorios\" />
   </ItemGroup>
 </Project>

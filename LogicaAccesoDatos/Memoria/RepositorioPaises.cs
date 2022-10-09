@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio;
+using LogicaNegocio.Dominio;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,13 @@ namespace LogicaAccesoDatos.Memoria
             throw new NotImplementedException();
         }
 
-        public Pais FindPaisByCodigo()
+        public Pais FindPaisByCodigo(string codigo)
         {
             throw new NotImplementedException();
 
         }
 
-        public IEnumerable<Pais> GetPaisesByRegion()
+        public IEnumerable<Pais> GetPaisesByRegion(Region region)
         {
             throw new NotImplementedException();
         }

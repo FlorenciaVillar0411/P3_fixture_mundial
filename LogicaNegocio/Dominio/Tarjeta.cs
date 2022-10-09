@@ -1,9 +1,8 @@
-﻿using ObligatorioP3;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LogicaNegocio
+namespace LogicaNegocio.Dominio
 {
     public class Tarjeta
     {

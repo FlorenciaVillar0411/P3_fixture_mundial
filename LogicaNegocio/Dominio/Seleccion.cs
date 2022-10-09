@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ObligatorioP3
+namespace LogicaNegocio.Dominio
 {
     public class Seleccion : IValidacion
     {

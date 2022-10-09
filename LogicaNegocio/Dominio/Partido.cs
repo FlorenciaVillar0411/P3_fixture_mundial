@@ -1,10 +1,9 @@
 ﻿using System;
-using ObligatorioP3;
 using System.Collections.Generic;
 using LogicaNegocio;
 using LogicaNegocio.InterfacesDominio;
 
-namespace ObligatorioP3
+namespace LogicaNegocio.Dominio
 {
     public class Partido : IValidacion
     {

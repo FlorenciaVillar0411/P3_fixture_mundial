@@ -9,7 +9,7 @@ namespace LogicaNegocio.Dominio
     public class Region
     {
         public int Id { get; set; }
-        public int Nombre { get; set; }
+        public string Nombre { get; set; }
 
         //       public void ValidarNombre(string NombreContinente, int enumValue, out Nombre_Region valido) //VER QUE ONDAAAAAAaaaaaaaa
         //

@@ -8,7 +8,6 @@ namespace LogicaNegocio.Dominio
     public class Partido : IValidacion
     {
         public int Id { get; set; }
-        public static int UltimoId { get; set; }
         public Seleccion EquipoUno { get; set; }
         public Seleccion EquipoDos { get; set; }
         public DateTime Fecha { get; set; }

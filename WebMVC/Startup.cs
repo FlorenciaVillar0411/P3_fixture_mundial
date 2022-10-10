@@ -11,8 +11,8 @@ using Microsoft.Extensions.Hosting;
 using LogicaNegocio.InterfacesRepositorios;
 using LogicaAplicacion.InterfacesCasosUso;
 using LogicaAplicacion.CasosUso;
-//using LogicaAccesoDatos.Memoria;
-using LogicaAccesoDatos.BaseDatos;
+using LogicaAccesoDatos.Memoria;
+//using LogicaAccesoDatos.BaseDatos;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebMVC
@@ -33,8 +33,8 @@ namespace WebMVC
             services.AddScoped<IAltaPais, AltaPais>();
             services.AddScoped<IListadoPaises, ListadoPaises>();
             services.AddScoped<IRepositorioPaises, RepositorioPaises>();
-            string strConnection = Configuration.GetConnectionString("MiConexion");
-            services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
+            string strConnection = Configuration.GetConnectionString("MiConexion2");
+            //services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
 
         }
 

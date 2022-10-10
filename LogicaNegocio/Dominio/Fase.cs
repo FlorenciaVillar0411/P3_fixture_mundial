@@ -6,7 +6,6 @@ namespace LogicaNegocio.Dominio
 {
     public class Fase
     {
-        //flopi estuvo aqui
         public int Id { get; set; }
         public static int UltimoId { get; set; }
 

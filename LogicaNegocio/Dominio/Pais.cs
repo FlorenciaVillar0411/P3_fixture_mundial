@@ -53,7 +53,6 @@ namespace LogicaNegocio.Dominio
         }
         public bool ValidarQueContengaLetra(string Nombre) //fijarse cual si la funcion anterior o esta elegimos usar
         {
-
             for (int i = 0; i < Nombre.Length; i++)
             {
                 char caracter = Nombre[i];

@@ -39,27 +39,44 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public Pais FindById(int id)
         {
-            throw new NotImplementedException();
+            return Contexto.Paises.Find(id);
         }
 
         public Pais FindPaisByCodigo(string codigo)
         {
-            throw new NotImplementedException();
+            return Contexto.Paises.Find(codigo);
         }
 
         public IEnumerable<Pais> GetPaisesByRegion(Region region)
         {
-            throw new NotImplementedException();
+            return Contexto.Paises.Where(x => x.Region == region);
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Pais aBorrar = Contexto.Paises.Find(id);
+                Contexto.Paises.Remove(aBorrar);
+                Contexto.SaveChanges();
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public void Update(Pais obj)
+        public void Update(Pais modificado)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Contexto.Update(modificado);
+                Contexto.SaveChanges();
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public bool ValidarEliminacion()

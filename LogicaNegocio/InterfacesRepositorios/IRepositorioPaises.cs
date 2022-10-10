@@ -7,7 +7,7 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioPaises : IRepositorio<Pais>
     {
-       Pais FindPaisByCodigo(string codigo);
+        Pais FindPaisByCodigo(string codigo);
         IEnumerable<Pais> GetPaisesByRegion(Region region);
         Boolean ValidarEliminacion();
     }

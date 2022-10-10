@@ -9,7 +9,6 @@ namespace LogicaNegocio.Dominio
     public class Seleccion : IValidacion
     {
         public int Id { get; set; }
-        public static int UltimoId { get; set; }
         public Pais Pais { get; set; }
         public string Nombre { get; set; }
         public string Email { get; set; }

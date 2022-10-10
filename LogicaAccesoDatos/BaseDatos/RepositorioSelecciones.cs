@@ -6,7 +6,7 @@ using LogicaNegocio.InterfacesRepositorios;
 
 namespace LogicaAccesoDatos.BaseDatos
 {
-    class RepositorioSelecciones : IRepositorioSelecciones
+    public class RepositorioSelecciones : IRepositorioSelecciones
     {
         public LibreriaContext Contexto { get; set; }
 

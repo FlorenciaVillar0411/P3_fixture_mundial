@@ -4,14 +4,16 @@ using LogicaAccesoDatos.BaseDatos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    partial class LibreriaContextModelSnapshot : ModelSnapshot
+    [Migration("20221010152528_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,7 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -62,16 +62,13 @@ namespace LogicaAccesoDatos.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CodigoISOAlfa3")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Imagen")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Pbi")
                         .HasColumnType("float");
@@ -79,7 +76,7 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("Poblacion")
                         .HasColumnType("int");
 
-                    b.Property<int>("RegionId")
+                    b.Property<int?>("RegionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -168,9 +165,7 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PaisId")
                         .HasColumnType("int");
@@ -195,9 +190,7 @@ namespace LogicaAccesoDatos.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(25)")
-                        .HasMaxLength(25);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PartidoId")
                         .HasColumnType("int");
@@ -218,9 +211,7 @@ namespace LogicaAccesoDatos.Migrations
                 {
                     b.HasOne("LogicaNegocio.Dominio.Region", "Region")
                         .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RegionId");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Partido", b =>
@@ -238,7 +229,7 @@ namespace LogicaAccesoDatos.Migrations
                         .HasForeignKey("FaseId");
 
                     b.HasOne("LogicaNegocio.Dominio.Grupo", null)
-                        .WithMany("Partidos")
+                        .WithMany("partidos")
                         .HasForeignKey("GrupoId");
                 });
 

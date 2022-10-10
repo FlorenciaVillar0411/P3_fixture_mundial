@@ -17,7 +17,6 @@ namespace LogicaAccesoDatos.BaseDatos
 
             public LibreriaContext(DbContextOptions<LibreriaContext> opciones) : base(opciones)
             {
-
             }
         
         }

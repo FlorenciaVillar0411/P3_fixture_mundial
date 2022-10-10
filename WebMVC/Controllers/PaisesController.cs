@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using LogicaNegocio;
 using LogicaAplicacion.InterfacesCasosUso;
 using LogicaNegocio.Dominio;
+using WebMVC.Models;
+using Excepciones;
 
 namespace WebMVC.Controllers
 {
@@ -15,11 +17,13 @@ namespace WebMVC.Controllers
         public IAltaPais CUAltaPais { get; set; }
 
         public IListadoPaises CUListadoPaises { get; set; }
+        public IListadoRegiones CUListadoRegiones { get; set; }
 
-        public PaisesController(IListadoPaises cuPaises, IAltaPais cuAlta)
+        public PaisesController(IListadoPaises cuPaises, IAltaPais cuAlta, IListadoRegiones cuRegiones)
         {
             CUAltaPais = cuAlta;
             CUListadoPaises = cuPaises;
+            CUListadoRegiones = cuRegiones;
         }
 
         // GET: Paises
@@ -38,23 +42,26 @@ namespace WebMVC.Controllers
         // GET: Paises/Create
         public ActionResult Create()
         {
+            PaisViewModel vm = new PaisViewModel();
+            vm.Regiones = CUListadoRegiones.ObtenerListado();
             return View();
         }
 
         // POST: Paises/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Pais nuevo)
+        public ActionResult Create(PaisViewModel vm)
         {
             try
             {
                 // TODO: Add insert logic here
-                CUAltaPais.Alta(nuevo);
+                vm.Nuevo.RegionId = vm.IdRegion;
+                CUAltaPais.Alta(vm.Nuevo);
                 return RedirectToAction(nameof(Index));
             }
-            catch {
+            catch (PaisException e){
 
-                ViewBag.Error = "error";
+                ViewBag.Error = e.Message;
                 return View();
             }
         }

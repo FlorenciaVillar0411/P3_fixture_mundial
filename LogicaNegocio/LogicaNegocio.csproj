@@ -10,6 +10,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dominio\" />
-    <Folder Include="InterfacesRepositorios\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Excepciones\Excepciones.csproj" />
   </ItemGroup>
 </Project>

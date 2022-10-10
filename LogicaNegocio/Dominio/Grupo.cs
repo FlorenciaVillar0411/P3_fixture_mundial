@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace LogicaNegocio.Dominio
 {
+    [Table("Grupos")]
     public class Grupo
     {
         public int Id { get; set; }
-        public static int UltimoId { get; set; }
+        [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
+        public IEnumerable<Partido> Partidos  { get; set; }
+
         public enum Nombre_Region
         {
             África,
@@ -28,7 +33,6 @@ namespace LogicaNegocio.Dominio
             return parseado;
         }
 
-        public IEnumerable<Partido> partidos  { get; set; }
 
 
     }

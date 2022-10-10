@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LogicaNegocio.InterfacesRepositorios;
 using LogicaAplicacion.InterfacesCasosUso;
 using LogicaAplicacion.CasosUso;
-using LogicaAccesoDatos.Memoria;
-//using LogicaAccesoDatos.BaseDatos;
-using Microsoft.EntityFrameworkCore;
+//using LogicaAccesoDatos.Memoria;
+using LogicaAccesoDatos.BaseDatos;
 
 namespace WebMVC
 {
@@ -32,9 +32,11 @@ namespace WebMVC
             services.AddControllersWithViews();
             services.AddScoped<IAltaPais, AltaPais>();
             services.AddScoped<IListadoPaises, ListadoPaises>();
+            services.AddScoped<IListadoRegiones, ListadoRegiones>();
+
             services.AddScoped<IRepositorioPaises, RepositorioPaises>();
-            string strConnection = Configuration.GetConnectionString("MiConexion2");
-            //services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
+            string strConnection = Configuration.GetConnectionString("MiConexion");
+            services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
 
         }
 

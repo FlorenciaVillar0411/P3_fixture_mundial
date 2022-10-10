@@ -1,84 +1,50 @@
+﻿using LogicaAplicacion.InterfacesCasosUso;
+using LogicaNegocio.Dominio;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using LogicaNegocio;
-using LogicaAplicacion.InterfacesCasosUso;
-using LogicaNegocio.Dominio;
-using WebMVC.Models;
 
 namespace WebMVC.Controllers
 {
-    public class PaisesController : Controller
+    public class RegionesController : Controller
     {
-        public IAltaPais CUAltaPais { get; set; }
-        public IListadoPaises CUListadoPaises { get; set; }
+        public IAltaRegion CUAltaRegion { get; set; }
         public IListadoRegiones CUListadoRegiones { get; set; }
-
-
-        public PaisesController(IListadoPaises cuPaises, IAltaPais cuAlta, IListadoRegiones cuRegiones)
+        // GET: RegionesController
+        public RegionesController(IListadoRegiones cuListado, IAltaRegion cuAlta)
         {
-            CUAltaPais = cuAlta;
-            CUListadoPaises = cuPaises;
-            CUListadoRegiones = cuRegiones;
+            CUAltaRegion = cuAlta;
+            CUListadoRegiones = cuListado;
         }
-
-        // GET: Paises
         public ActionResult Index()
         {
-            IEnumerable<Pais> paises = CUListadoPaises.ObtenerListado();
-            return View(paises);
+            IEnumerable<Region> regiones = CUListadoRegiones.ObtenerListado();
+            return View(regiones);
         }
 
-        // GET: Paises/Details/5
+        // GET: RegionesController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Paises/Create
+        // GET: RegionesController/Create
         public ActionResult Create()
-        {
-            PaisViewModel vm = new PaisViewModel();
-            vm.Regiones = CUListadoRegiones.ObtenerListado();
-            return View(vm);
-        }
-
-        // POST: Paises/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(PaisViewModel vm)
-        {
-            try
-            {
-                vm.IdRegion = vm.Nuevo.RegionId;
-                CUAltaPais.Alta(vm.Nuevo);
-                return RedirectToAction(nameof(Index));
-            }
-            catch {
-
-                ViewBag.Error = "error";
-                return View();
-            }
-        }
-
-        // GET: Paises/Edit/5
-        public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Paises/Edit/5
+        // POST: RegionesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Create(Region region)
         {
             try
             {
-                // TODO: Add update logic here
-
+                CUAltaRegion.Alta(region);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -87,21 +53,40 @@ namespace WebMVC.Controllers
             }
         }
 
-        // GET: Paises/Delete/5
+        // GET: RegionesController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: RegionesController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: RegionesController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Paises/Delete/5
+        // POST: RegionesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction(nameof(Index));
             }
             catch

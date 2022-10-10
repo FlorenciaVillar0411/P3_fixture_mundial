@@ -14,9 +14,17 @@ namespace LogicaAccesoDatos.BaseDatos
         {
             Contexto = ctx;
         }
-        public void Add(Region obj)
+        public void Add(Region nuevo)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Contexto.Regiones.Add(nuevo);
+                Contexto.SaveChanges();
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public IEnumerable<Region> FindAll()

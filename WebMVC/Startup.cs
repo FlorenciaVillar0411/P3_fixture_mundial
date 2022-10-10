@@ -32,9 +32,10 @@ namespace WebMVC
             services.AddControllersWithViews();
             services.AddScoped<IAltaPais, AltaPais>();
             services.AddScoped<IListadoPaises, ListadoPaises>();
-            services.AddScoped<IListadoRegiones, ListadoRegiones>();
-
             services.AddScoped<IRepositorioPaises, RepositorioPaises>();
+            services.AddScoped<IListadoRegiones, ListadoRegiones>();
+            services.AddScoped<IAltaRegion, AltaRegion>();
+            services.AddScoped<IRepositorioRegiones, RepositorioRegiones>();
             string strConnection = Configuration.GetConnectionString("MiConexion");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
 

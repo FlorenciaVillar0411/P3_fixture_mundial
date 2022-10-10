@@ -3,26 +3,38 @@ using System.Collections.Generic;
 using System.Text;
 using LogicaNegocio.InterfacesRepositorios;
 using LogicaNegocio.Dominio;
+using System.Linq;
 
 namespace LogicaAccesoDatos.BaseDatos
 {
 
     public class RepositorioPaises : IRepositorioPaises
     {
-        //public LibreriaContext Contexto { get; set; }
+        public LibreriaContext Contexto { get; set; }
 
-        //public RepositorioPaises(LibreriaContext ctx)
-        //{
-        //    Contexto = ctx;
-        //}
-        public void Add(Pais obj)
+        public RepositorioPaises(LibreriaContext context)
         {
-            throw new NotImplementedException();
+            Contexto = context;
+        }
+        public void Add(Pais nuevo)
+        {
+            try
+            {
+                nuevo.Validar();
+                Contexto.Paises.Add(nuevo);
+                Contexto.SaveChanges();
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+
         }
 
         public IEnumerable<Pais> FindAll()
         {
-            throw new NotImplementedException();
+            return Contexto.Paises.ToList();
+
         }
 
         public Pais FindById(int id)

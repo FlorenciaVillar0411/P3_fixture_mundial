@@ -8,6 +8,9 @@ using LogicaNegocio;
 using LogicaAplicacion.InterfacesCasosUso;
 using LogicaNegocio.Dominio;
 using WebMVC.Models;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Excepciones;
 
 namespace WebMVC.Controllers
 {
@@ -16,27 +19,21 @@ namespace WebMVC.Controllers
         public IAltaPais CUAltaPais { get; set; }
         public IListadoPaises CUListadoPaises { get; set; }
         public IListadoRegiones CUListadoRegiones { get; set; }
+        public IWebHostEnvironment WHE { get; set; }
         public IBajaPais CUBajaPais { get; set; }
         public IModificarPais CUModificarPais { get; set; }
         public IBuscarPais CUBuscarPais { get; set; }
 
-
-        public PaisesController(
-            IListadoPaises cuPaises,
-            IAltaPais cuAlta,
-            IListadoRegiones cuRegiones,
-            IBajaPais cuBajaPais,
-            IModificarPais cuModificarPais,
-            IBuscarPais cuBuscarPais)
+        public PaisesController(IAltaPais cUAltaPais, IListadoPaises cUListadoPaises, IListadoRegiones cUListadoRegiones, IWebHostEnvironment wHE, IBajaPais cUBajaPais, IModificarPais cUModificarPais, IBuscarPais cUBuscarPais)
         {
-            CUAltaPais = cuAlta;
-            CUListadoPaises = cuPaises;
-            CUListadoRegiones = cuRegiones;
-            CUBajaPais = cuBajaPais;
-            CUModificarPais = cuModificarPais;
-            CUBuscarPais = cuBuscarPais;
+            CUAltaPais = cUAltaPais;
+            CUListadoPaises = cUListadoPaises;
+            CUListadoRegiones = cUListadoRegiones;
+            WHE = wHE;
+            CUBajaPais = cUBajaPais;
+            CUModificarPais = cUModificarPais;
+            CUBuscarPais = cUBuscarPais;
         }
-
 
         // GET: Paises
         public ActionResult Index()
@@ -52,6 +49,7 @@ namespace WebMVC.Controllers
         }
 
         // GET: Paises/Create
+        [HttpGet]
         public ActionResult Create()
         {
             PaisViewModel vm = new PaisViewModel();
@@ -66,15 +64,48 @@ namespace WebMVC.Controllers
         {
             try
             {
+                vm.Regiones = CUListadoRegiones.ObtenerListado();
                 vm.IdRegion = vm.Nuevo.RegionId;
+                vm.Regiones = CUListadoRegiones.ObtenerListado();
+
+                //FileInfo fi = new FileInfo(vm.Imagen.FileName);
+                //string extension = fi.Extension; 
+
+                //creamos un nombre unico para la imagen
+                //string nombreImagen = vm.Nuevo.CodigoISOAlfa3 + "_" + extension;
+                //guardamos ese nombre en el Pais
+                //vm.Nuevo.Imagen = nombreImagen;
+
+                //obtenemos la ruta a la raiz de la aplicacion (wwwroot)
+                //string rutaRaiz = WHE.WebRootPath;
+
+                //armamos la ruta a la carpeta "Banderas"
+                //string rutaCarpeta = Path.Combine(rutaRaiz, "Banderas"); 
+
+                //armamos la ruta del archivo
+                //string rutaArchivo = Path.Combine(rutaCarpeta, nombreImagen);
+
                 CUAltaPais.Alta(vm.Nuevo);
+
+                //si llegamos aca es porque el esta se dio, guardamos la img
+
+                //creamos un string para crear el archivo
+                //FileStream fs = new FileStream(rutaArchivo, FileMode.Create);
+                //copiamos a FileSystem (fs) la imagen a traves del stream 
+                //vm.Imagen.CopyTo(fs);
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(PaisException ex)
             {
 
-                ViewBag.Error = "error";
-                return View();
+                ViewBag.Error = ex.Message;
+                return View(vm);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(vm);
             }
         }
 

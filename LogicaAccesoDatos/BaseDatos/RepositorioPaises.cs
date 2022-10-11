@@ -5,6 +5,8 @@ using LogicaNegocio.InterfacesRepositorios;
 using LogicaNegocio.Dominio;
 using System.Linq;
 using Excepciones;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LogicaAccesoDatos.BaseDatos
 {

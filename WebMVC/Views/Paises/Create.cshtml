@@ -4,16 +4,14 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Create Pais</h1>
 
 <h4>Pais</h4>
+<span>@ViewBag.Error</span>
 <hr />
-<div>
-    <span>@ViewBag.Error</span>
-</div>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="View">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nuevo.Nombre" class="control-label"></label>
@@ -36,20 +34,20 @@
                 <span asp-validation-for="Nuevo.Poblacion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Nuevo.Imagen" class="control-label"></label>
-                <input asp-for="Nuevo.Imagen" class="form-control" />
-                <span asp-validation-for="Nuevo.Imagen" class="text-danger"></span>
+                <label asp-for="Imagen" class="control-label"></label>
+                <input asp-for="Imagen" class="form-control" />
+                <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <select id="Regiones" name="IdRegion">
-                    @foreach (var region in Model.Regiones)
+                <select id="Regiones" name="IdRegion" asp-for="IdRegion">
+                    @foreach(var region in Model.Regiones)
                     {
                         <option value="@region.Id">@region.Nombre</option>
                     }
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit"  asp-action="Create" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

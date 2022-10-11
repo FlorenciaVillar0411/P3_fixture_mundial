@@ -41,5 +41,10 @@ namespace LogicaNegocio.Dominio
                 throw new PartidoException("");
             }
         }
+
+        public List<Tarjeta> GetTarjetas()
+        {
+            return (List<Tarjeta>)tarjetas;
+        }
     }
 }

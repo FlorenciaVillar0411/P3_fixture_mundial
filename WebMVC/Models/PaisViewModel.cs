@@ -12,7 +12,7 @@ namespace WebMVC.Models
         public IEnumerable<Region> Regiones{ get; set; }
         public Pais Nuevo { get; set; }
         public int IdRegion { get; set; }
-        public string Pais { get; internal set; }
-        public IFormFile Imagen { get; internal set; }
+        //public string Pais { get; set; }
+        public IFormFile Imagen { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace LogicaNegocio.Dominio
             Europa,
             Oceanía
         }
-
+        //chequear estooooooo
         public bool ParseEnum<Nombre_Region>(int enumValue, out Nombre_Region valido)
         {
             valido = default(Nombre_Region);

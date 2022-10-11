@@ -37,13 +37,14 @@ namespace LogicaNegocio.Dominio
         {
             char primeraLetra = Nombre[0];
             if (CodigoISOAlfa3.Length < 3 && CodigoISOAlfa3.Length > 3 && !CodigoISOAlfa3.StartsWith(primeraLetra))
+
             {
                 throw new PaisException("El codigo no es valido");
             }
         }
-        public void ValidarNombre(string nombre)
+        public void ValidarNombre()
         {
-            if (nombre == "")
+            if (Nombre == "")
             {
                 throw new PaisException("Nombre vacio");
             }

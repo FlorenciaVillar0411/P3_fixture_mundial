@@ -18,10 +18,8 @@ namespace LogicaNegocio.Dominio
         [Display(Name ="Codigo ISO Alfa 3"), Required(ErrorMessage ="Codigo es obligatorio")]
         public string CodigoISOAlfa3 { get; set; }
         [Required(ErrorMessage = "Pbi es obligatorio")]
-
         public double Pbi { get; set; }
         public int Poblacion { get; set; }
-
         public string Imagen { get; set; }
         [Required]
         public Region Region { get; set; }

@@ -25,9 +25,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Paises.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede agregar el Pais", e);
             }
 
         }
@@ -61,9 +61,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Paises.Remove(aBorrar);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede eliminar el Pais", e);
             }
         }
 
@@ -74,9 +74,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Update(modificado);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede editar el Pais", e);
             }
         }
 

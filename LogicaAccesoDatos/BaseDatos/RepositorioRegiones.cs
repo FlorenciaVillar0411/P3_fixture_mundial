@@ -21,9 +21,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Regiones.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede agregar Regiones" , e);
             }
         }
 

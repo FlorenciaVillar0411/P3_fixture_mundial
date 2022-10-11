@@ -5,6 +5,7 @@ using LogicaNegocio.InterfacesRepositorios;
 using LogicaNegocio.Dominio;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Excepciones;
 
 namespace LogicaAccesoDatos.BaseDatos
 {
@@ -25,10 +26,15 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Paises.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch
+            catch(PaisException ex)
             {
-                throw new NotImplementedException();
+                throw new PaisException(ex.Message);
             }
+            catch (Exception ex)
+            {
+                throw new PaisException(ex.Message);
+            }
+
 
         }
 

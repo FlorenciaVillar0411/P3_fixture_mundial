@@ -68,32 +68,32 @@ namespace WebMVC.Controllers
                 vm.IdRegion = vm.Nuevo.RegionId;
                 vm.Regiones = CUListadoRegiones.ObtenerListado();
 
-                //FileInfo fi = new FileInfo(vm.Imagen.FileName);
-                //string extension = fi.Extension; 
+                FileInfo fi = new FileInfo(vm.Imagen.FileName);
+                string extension = fi.Extension;
 
                 //creamos un nombre unico para la imagen
-                //string nombreImagen = vm.Nuevo.CodigoISOAlfa3 + "_" + extension;
+                string nombreImagen = vm.Nuevo.CodigoISOAlfa3 + "_" + extension;
                 //guardamos ese nombre en el Pais
-                //vm.Nuevo.Imagen = nombreImagen;
+                vm.Nuevo.Imagen = nombreImagen;
 
                 //obtenemos la ruta a la raiz de la aplicacion (wwwroot)
-                //string rutaRaiz = WHE.WebRootPath;
+                string rutaRaiz = WHE.WebRootPath;
 
                 //armamos la ruta a la carpeta "Banderas"
-                //string rutaCarpeta = Path.Combine(rutaRaiz, "Banderas"); 
+                string rutaCarpeta = Path.Combine(rutaRaiz, "Banderas");
 
                 //armamos la ruta del archivo
-                //string rutaArchivo = Path.Combine(rutaCarpeta, nombreImagen);
+                string rutaArchivo = Path.Combine(rutaCarpeta, nombreImagen);
 
-                CUAltaPais.Alta(vm.Nuevo);
 
                 //si llegamos aca es porque el esta se dio, guardamos la img
 
                 //creamos un string para crear el archivo
-                //FileStream fs = new FileStream(rutaArchivo, FileMode.Create);
+                FileStream fs = new FileStream(rutaArchivo, FileMode.Create);
                 //copiamos a FileSystem (fs) la imagen a traves del stream 
-                //vm.Imagen.CopyTo(fs);
+                vm.Imagen.CopyTo(fs);
 
+                CUAltaPais.Alta(vm.Nuevo);
                 return RedirectToAction(nameof(Index));
             }
             catch(PaisException ex)

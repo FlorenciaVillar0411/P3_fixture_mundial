@@ -4,6 +4,7 @@ using System.Text;
 using LogicaNegocio.InterfacesRepositorios;
 using LogicaNegocio.Dominio;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace LogicaAccesoDatos.BaseDatos
 {

@@ -16,10 +16,12 @@ namespace LogicaNegocio.Dominio
         public int Id { get; set; }
         public Pais Pais { get; set; }
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
-
         public string Nombre { get; set; }
+     
         public string Email { get; set; }
+        [MinLength(7), Required(ErrorMessage = "Telefono debe tener al menos 7 caracteres numericos")]
         public string Telefono { get; set; }
+       
         public int CantidadApostadores { get; set; }
         public Grupo Grupo { get; set; }
 
@@ -42,7 +44,7 @@ namespace LogicaNegocio.Dominio
         //VEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER
         public void ValidarUnaSeleccionPorPais()
         {
-
+           
         }
         public void ValidarNombreContacto()
         {

@@ -19,17 +19,20 @@ namespace WebMVC.Controllers
         public IListadoPaises CUListadoPaises { get; set; }
         public IListadoRegiones CUListadoRegiones { get; set; }
         public IWebHostEnvironment WHE { get; set; }
+        public IBajaPais CUBajaPais { get; set; }
+        public IModificarPais CUModificarPais { get; set; }
+        public IBuscarPais CUBuscarPais { get; set; }
 
-
-        public PaisesController(IListadoPaises cuPaises, IAltaPais cuAlta, IListadoRegiones cuRegiones,
-            IWebHostEnvironment whe)
+        public PaisesController(IAltaPais cUAltaPais, IListadoPaises cUListadoPaises, IListadoRegiones cUListadoRegiones, IWebHostEnvironment wHE, IBajaPais cUBajaPais, IModificarPais cUModificarPais, IBuscarPais cUBuscarPais)
         {
-            CUAltaPais = cuAlta;
-            CUListadoPaises = cuPaises;
-            CUListadoRegiones = cuRegiones;
-            WHE = whe;
+            CUAltaPais = cUAltaPais;
+            CUListadoPaises = cUListadoPaises;
+            CUListadoRegiones = cUListadoRegiones;
+            WHE = wHE;
+            CUBajaPais = cUBajaPais;
+            CUModificarPais = cUModificarPais;
+            CUBuscarPais = cUBuscarPais;
         }
-
 
         // GET: Paises
         public ActionResult Index()
@@ -90,9 +93,8 @@ namespace WebMVC.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            
-
-            catch {
+            catch
+            {
 
                 ViewBag.Error = "error";
                 return View();
@@ -108,12 +110,11 @@ namespace WebMVC.Controllers
         // POST: Paises/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Pais pais)
         {
             try
             {
-                // TODO: Add update logic here
-
+                CUModificarPais.Modificar(pais);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -135,8 +136,59 @@ namespace WebMVC.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                CUBajaPais.Baja(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
+        // GET: Paises/BuscarPorId
+        public ActionResult BuscarPorId(int id)
+        {
+            return View();
+        }
+
+        // POST: Paises/BuscarPorId
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BuscarPorId(int id, IFormCollection collection)
+        {
+            try
+            {
+                Pais paisBuscado = CUBuscarPais.Buscar(id);
+                if (paisBuscado == null)
+                {
+                    ViewBag.msg = "No hay paises con ese id";
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Paises/BuscarPorCodigo
+        public ActionResult BuscarPorCodigo(string codigo)
+        {
+            return View();
+        }
+
+        // POST: Paises/Buscar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BuscarPorCodigo(string codigo, IFormCollection collection)
+        {
+            try
+            {
+                Pais paisBuscado = CUBuscarPais.Buscar(codigo);
+                if (paisBuscado == null)
+                {
+                    ViewBag.msg = "No hay paises con ese codigo";
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

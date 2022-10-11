@@ -29,11 +29,11 @@ namespace LogicaNegocio.Dominio
 
         public void Validar()
         {
-            ValidarCodigo(CodigoISOAlfa3, Nombre);
-            ValidarNombre(Nombre);
+            ValidarCodigo();
+            ValidarNombre();
         }
 
-        public void ValidarCodigo(string CodigoISOAlfa3, string Nombre)
+        public void ValidarCodigo()
         {
             char primeraLetra = Nombre[0];
             if (CodigoISOAlfa3.Length < 3 && CodigoISOAlfa3.Length > 3 && !CodigoISOAlfa3.StartsWith(primeraLetra))
@@ -41,9 +41,9 @@ namespace LogicaNegocio.Dominio
                 throw new PaisException("El codigo no es valido");
             }
         }
-        public void ValidarNombre(string nombre)
+        public void ValidarNombre()
         {
-            if (nombre == "")
+            if (Nombre == "")
             {
                 throw new PaisException("Nombre vacio");
             }

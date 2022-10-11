@@ -17,7 +17,7 @@ namespace LogicaNegocio.Dominio
         public Pais Pais { get; set; }
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
         public string Nombre { get; set; }
-     
+        [EmailAddress(ErrorMessage = "El Email no es valido")]
         public string Email { get; set; }
         [MinLength(7), Required(ErrorMessage = "Telefono debe tener al menos 7 caracteres numericos")]
         public string Telefono { get; set; }

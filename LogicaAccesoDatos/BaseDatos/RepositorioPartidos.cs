@@ -21,9 +21,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede agregar el partido", e);
             }
         }
 
@@ -34,9 +34,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Update(partido);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede agregar resultados", e);
             }
         }
 
@@ -58,9 +58,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Remove(aBorrar);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede eliminar el Partido", e);
             }
         }
 
@@ -71,9 +71,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Update(partido);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede editar el Partido", e);
             }
         }
 

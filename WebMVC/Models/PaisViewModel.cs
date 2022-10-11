@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio.Dominio;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace WebMVC.Models
         public IEnumerable<Region> Regiones{ get; set; }
         public Pais Nuevo { get; set; }
         public int IdRegion { get; set; }
-}
+        public string Pais { get; internal set; }
+        public IFormFile Imagen { get; internal set; }
+    }
 }

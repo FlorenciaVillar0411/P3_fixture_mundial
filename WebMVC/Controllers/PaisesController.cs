@@ -140,7 +140,7 @@ namespace WebMVC.Controllers
                 {
                     ViewBag.msg = "No hay paises con ese id";
                 }
-                return View(paisBuscado);
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -166,7 +166,7 @@ namespace WebMVC.Controllers
                 {
                     ViewBag.msg = "No hay paises con ese codigo";
                 }
-                return RedirectToAction(nameof(paisBuscado));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {

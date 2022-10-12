@@ -26,6 +26,7 @@ namespace LogicaNegocio.Dominio
         public IEnumerable<Tarjeta> tarjetas { get; set; }
         [Display(Name = "Puntos seleccion 1")]
         public int PuntajeEquipoUno { get; set; }
+
         [Display(Name = "Puntos seleccion 2")]
         public int PuntajeEquipoDos { get; set; }
         public Fase Fase { get; set; }
@@ -66,6 +67,11 @@ namespace LogicaNegocio.Dominio
             {
                 throw new PartidoException("Fechas inavlidas");
             }
+        }
+
+        public List<Tarjeta> GetTarjetas()
+        {
+            return (List<Tarjeta>)tarjetas;
         }
     }
 }

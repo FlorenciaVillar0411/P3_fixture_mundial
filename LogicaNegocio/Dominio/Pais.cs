@@ -51,10 +51,11 @@ namespace LogicaNegocio.Dominio
             }
         }
 
-        public void ValidarCodigo()
+        public void ValidarCodigo(string CodigoISOAlfa3, string Nombre)
         {
             char primeraLetra = Nombre[0];
             if (CodigoISOAlfa3.Length < 3 && CodigoISOAlfa3.Length > 3 && !CodigoISOAlfa3.StartsWith(primeraLetra))
+
             {
                 throw new PaisException("El codigo no es valido");
             }

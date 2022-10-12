@@ -18,6 +18,7 @@ namespace LogicaNegocio.Dominio
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
 
         public string Nombre { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public string Telefono { get; set; }
         public int CantidadApostadores { get; set; }
@@ -26,7 +27,7 @@ namespace LogicaNegocio.Dominio
         public void Validar()
         {
             ValidarNombres();
-            ValidarUnaSeleccionPorPais(); //VEEEEEEEEEEEEEEEEEER
+            ValidarUnaSeleccionPorPais();
             ValidarNombreContacto();
             ValidarEmail();
             ValidarNumeroTelefono();
@@ -34,12 +35,22 @@ namespace LogicaNegocio.Dominio
         }
         public void ValidarNombres()
         {
-            if (string.IsNullOrEmpty(Nombre))
+ 
+            if (Nombre == "")
             {
-                throw new SeleccionException("Seleccion debe tener un nombre valido");
+                throw new PaisException("Nombre vacio");
             }
+
+            for (int i = 0; i < Nombre.Length; i++)
+            {
+                char caracter = Nombre[i];
+                if (Char.IsNumber(caracter))
+                {
+                    throw new PaisException("Nombre no valido");
+                }
+            }
+            
         }
-        //VEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER
         public void ValidarUnaSeleccionPorPais()
         {
 
@@ -60,47 +71,23 @@ namespace LogicaNegocio.Dominio
                 }
             }
         }
-        public bool ValidarEmail()
+        public void ValidarEmail()
         {
-            String expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-            if (Regex.IsMatch(Email, expresion))
+            if (!Email.Contains("@"))
             {
-                if (Regex.Replace(Email, expresion, String.Empty).Length == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
+                throw new SeleccionException("mail invalido");
+            }           
         }
         public void ValidarNumeroTelefono()
         {
-            if(Telefono.Length > 7)
+            if(Telefono.Length != 7)
             {
-                for (int i = 0; i < Telefono.Length; i++)
-                {
-                    char numero = Telefono[i];
-                    if (!Char.IsNumber(numero))
-                    {
-                        throw new SeleccionException("Nombre no valido");
-                    }
-                }
-            }
-            else
-            {
-                throw new SeleccionException("Nombre no valido");
-            }
-          
+                throw new SeleccionException("Numero debe tener 7 digitos");
+            }          
         }
         public void ValidarCantidadesApostadoresPostiivas()
         {
-            if(CantidadApostadores < 0)
+            if(CantidadApostadores <= 0)
             {
                 throw new SeleccionException("La cantidad de apostadoresdebe ser mayor a cero");
             }

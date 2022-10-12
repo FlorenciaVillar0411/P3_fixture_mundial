@@ -31,6 +31,24 @@ namespace LogicaNegocio.Dominio
         {
             ValidarCodigo();
             ValidarNombre();
+            ValidarNumerosPositivo();
+            ValidarImagen();
+        }
+
+        private void ValidarImagen()
+        {
+            if (!Imagen.Contains(CodigoISOAlfa3))
+            {
+                throw new PaisException("Imagen debe llamarse como el codigoISO");
+            }
+        }
+
+        private void ValidarNumerosPositivo()
+        {
+            if (Pbi<= 0 || Poblacion <=0)
+            {
+                throw new PaisException("PBI y poblacion deben ser numeros positivos");
+            }
         }
 
         public void ValidarCodigo()

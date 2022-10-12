@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicaNegocio.InterfacesDominio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,33 +8,28 @@ using System.Text;
 namespace LogicaNegocio.Dominio
 {
     [Table("Grupos")]
-    public class Grupo
+    public class Grupo : IValidacion
     {
         public int Id { get; set; }
+        public string Nombre { get; set; }
+
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
         public IEnumerable<Partido> Partidos  { get; set; }
 
-        public enum Nombre_Region
+
+        public void Validar()
         {
-            África,
-            América,
-            Asia,
-            Europa,
-            Oceanía
+            ValidarNombre();
         }
-        //chequear estooooooo
-        public bool ParseEnum<Nombre_Region>(int enumValue, out Nombre_Region valido)
+
+        private void ValidarNombre()
         {
-            valido = default(Nombre_Region);
-            bool parseado = Enum.IsDefined(typeof(Nombre_Region), enumValue);
-            if (parseado)
+            if (Nombre =="A" || Nombre == "B" || Nombre == "C" || Nombre == "D" || Nombre == "E" || Nombre == "F" || Nombre == "G" || Nombre == "H")
             {
-                valido = (Nombre_Region)Enum.ToObject(typeof(Nombre_Region), enumValue);
+            } else
+            {
+                throw new NotImplementedException();
             }
-            return parseado;
         }
-
-
-
     }
 }

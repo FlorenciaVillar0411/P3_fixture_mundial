@@ -34,8 +34,19 @@ namespace LogicaAccesoDatos.BaseDatos
             {
                 throw new PaisException(ex.Message);
             }
+        }
 
-
+        private void ValidarPaisEnSeleccion(Pais pais)
+        {
+            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
+            foreach (Seleccion s in selecciones)
+            {
+                if(s.Pais == pais)
+                {
+                    throw new PaisException("Pais tiene seleccion");
+                }
+            }
+             
         }
 
         public IEnumerable<Pais> FindAll()
@@ -51,12 +62,20 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public Pais FindPaisByCodigo(string codigo)
         {
-            return Contexto.Paises.Find(codigo);
+            List<Pais> paises = Contexto.Paises.ToList();
+            foreach (Pais p in paises)
+            {
+                if (p.CodigoISOAlfa3 == codigo)
+                {
+                    return p;
+                }
+            }
+            throw new PaisException("No se enconuentra pais por codigo");
         }
 
-        public IEnumerable<Pais> GetPaisesByRegion(Region region)
+        public IEnumerable<Pais> GetPaisesByRegion(int region)
         {
-            return Contexto.Paises.Where(x => x.Region == region);
+            return Contexto.Paises.Where(x => x.Region.Id == region);
         }
 
         public void Remove(int id)
@@ -64,12 +83,17 @@ namespace LogicaAccesoDatos.BaseDatos
             try
             {
                 Pais aBorrar = Contexto.Paises.Find(id);
+                ValidarPaisEnSeleccion(aBorrar);
                 Contexto.Paises.Remove(aBorrar);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (PaisException ex)
             {
-                throw new NotImplementedException();
+                throw new PaisException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new PaisException(ex.Message);
             }
         }
 
@@ -77,6 +101,7 @@ namespace LogicaAccesoDatos.BaseDatos
         {
             try
             {
+                modificado.Validar();
                 Contexto.Update(modificado);
                 Contexto.SaveChanges();
             }

@@ -1,41 +1,40 @@
-﻿@model LogicaNegocio.Dominio.Pais
+﻿@model WebMVC.Models.PaisViewModel
 
-@{
-    ViewData["Title"] = "Edit";
-}
+@{ ViewData["Title"] = "Edit"; }
 
 <h1>Edit</h1>
 
 <h4>Pais</h4>
+<span>@ViewBag.Error</span>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="Nuevo.Id" class="control-label"></label>
+                <span asp-validation-for="Nuevo.Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <label asp-for="Nuevo.Nombre" class="control-label"></label>
+                <input asp-for="Nuevo.Nombre" class="form-control" />
+                <span asp-validation-for="Nuevo.Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CodigoISOAlfa3" class="control-label"></label>
-                <input asp-for="CodigoISOAlfa3" class="form-control" />
-                <span asp-validation-for="CodigoISOAlfa3" class="text-danger"></span>
+                <label asp-for="Nuevo.CodigoISOAlfa3" class="control-label"></label>
+                <input asp-for="Nuevo.CodigoISOAlfa3" class="form-control" />
+                <span asp-validation-for="Nuevo.CodigoISOAlfa3" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Pbi" class="control-label"></label>
-                <input asp-for="Pbi" class="form-control" />
-                <span asp-validation-for="Pbi" class="text-danger"></span>
+                <label asp-for="Nuevo.Pbi" class="control-label"></label>
+                <input asp-for="Nuevo.Pbi" class="form-control" />
+                <span asp-validation-for="Nuevo.Pbi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Poblacion" class="control-label"></label>
-                <input asp-for="Poblacion" class="form-control" />
-                <span asp-validation-for="Poblacion" class="text-danger"></span>
+                <label asp-for="Nuevo.Poblacion" class="control-label"></label>
+                <input asp-for="Nuevo.Poblacion" class="form-control" />
+                <span asp-validation-for="Nuevo.Poblacion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Imagen" class="control-label"></label>
@@ -43,9 +42,11 @@
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RegionId" class="control-label"></label>
-                <input asp-for="RegionId" class="form-control" />
-                <span asp-validation-for="RegionId" class="text-danger"></span>
+                <select id="Regiones" name="IdRegion" asp-for="IdRegion">
+                    @foreach (var region in Model.Regiones)
+                    {
+        <option value="@region.Id">@region.Nombre</option>}
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

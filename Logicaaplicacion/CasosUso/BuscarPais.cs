@@ -26,7 +26,7 @@ namespace LogicaAplicacion.CasosUso
             return RepoPaises.FindById(id);
         }
 
-        public IEnumerable<Pais> Buscar(Region region)
+        public IEnumerable<Pais> BuscarPorRegion(int region)
         {
             return RepoPaises.GetPaisesByRegion(region);
         }

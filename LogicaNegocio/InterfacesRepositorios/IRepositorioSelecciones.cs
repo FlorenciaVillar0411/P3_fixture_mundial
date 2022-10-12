@@ -7,6 +7,6 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioSelecciones: IRepositorio<Seleccion>
     {
-        Boolean ValidarEliminacion();
+        void ValidarEliminacion(Seleccion seleccion);
     }
 }

@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+        <form asp-action="View" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nuevo.Nombre" class="control-label"></label>
@@ -39,6 +39,7 @@
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
             <div class="form-group">
+
                 <select id="Regiones" name="IdRegion" asp-for="IdRegion">
                     @foreach(var region in Model.Regiones)
                     {

@@ -26,20 +26,52 @@ namespace LogicaNegocio.Dominio
         public IEnumerable<Tarjeta> tarjetas { get; set; }
         [Display(Name = "Puntos seleccion 1")]
         public int PuntajeEquipoUno { get; set; }
+
         [Display(Name = "Puntos seleccion 2")]
         public int PuntajeEquipoDos { get; set; }
         public Fase Fase { get; set; }
 
         public void Validar()
         {
-            ValidarPartido();
+            ValidarFechas();
+            ValidarHora();
+            ValidarEquipos();
         }
-        void ValidarPartido()
+
+        private void ValidarEquipos()
         {
-            if(CantidadGolesEquipoUno<0 || CantidadGolesEquipoDos < 0)
+            if (EquipoUno == EquipoDos)
             {
-                throw new PartidoException("");
+                throw new PartidoException("Seleccion no puede jugar contra si misma");
             }
+            if (EquipoUno.Grupo.Id != EquipoDos.Grupo.Id)
+            {
+                throw new PartidoException("Seleccion no puede jugar contra si misma");
+            }
+        }
+
+        private void ValidarHora()
+        {
+            if (Hora == 7 || Hora == 10 || Hora == 13 || Hora ==16)
+            {
+                throw new PartidoException("Horario inavlido");
+            }
+        }
+
+        void ValidarFechas()
+        {
+            DateTime fechaFaseInicio = new DateTime(20 / 11 / 2022);
+            DateTime fechaFaseFinal = new DateTime(02 / 12 / 2022);
+
+            if (Fecha < fechaFaseInicio || Fecha < fechaFaseFinal)
+            {
+                throw new PartidoException("Fechas inavlidas");
+            }
+        }
+
+        public List<Tarjeta> GetTarjetas()
+        {
+            return (List<Tarjeta>)tarjetas;
         }
     }
 }

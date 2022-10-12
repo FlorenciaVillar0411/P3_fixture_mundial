@@ -34,6 +34,7 @@ namespace WebMVC
             services.AddScoped<IListadoPaises, ListadoPaises>();
             services.AddScoped<IRepositorioPaises, RepositorioPaises>();
             services.AddScoped<IListadoRegiones, ListadoRegiones>();
+
             services.AddScoped<IAltaRegion, AltaRegion>();
             services.AddScoped<IRepositorioRegiones, RepositorioRegiones>();
             string strConnection = Configuration.GetConnectionString("MiConexion");

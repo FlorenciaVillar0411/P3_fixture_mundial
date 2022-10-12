@@ -68,32 +68,32 @@ namespace WebMVC.Controllers
                 vm.IdRegion = vm.Nuevo.RegionId;
                 vm.Regiones = CUListadoRegiones.ObtenerListado();
 
-                //FileInfo fi = new FileInfo(vm.Imagen.FileName);
-                //string extension = fi.Extension; 
+                FileInfo fi = new FileInfo(vm.Imagen.FileName);
+                string extension = fi.Extension;
 
                 //creamos un nombre unico para la imagen
-                //string nombreImagen = vm.Nuevo.CodigoISOAlfa3 + "_" + extension;
+                string nombreImagen = vm.Nuevo.CodigoISOAlfa3 + "_" + extension;
                 //guardamos ese nombre en el Pais
-                //vm.Nuevo.Imagen = nombreImagen;
+                vm.Nuevo.Imagen = nombreImagen;
 
                 //obtenemos la ruta a la raiz de la aplicacion (wwwroot)
-                //string rutaRaiz = WHE.WebRootPath;
+                string rutaRaiz = WHE.WebRootPath;
 
                 //armamos la ruta a la carpeta "Banderas"
-                //string rutaCarpeta = Path.Combine(rutaRaiz, "Banderas"); 
+                string rutaCarpeta = Path.Combine(rutaRaiz, "Banderas");
 
                 //armamos la ruta del archivo
-                //string rutaArchivo = Path.Combine(rutaCarpeta, nombreImagen);
+                string rutaArchivo = Path.Combine(rutaCarpeta, nombreImagen);
 
-                CUAltaPais.Alta(vm.Nuevo);
 
                 //si llegamos aca es porque el esta se dio, guardamos la img
 
                 //creamos un string para crear el archivo
-                //FileStream fs = new FileStream(rutaArchivo, FileMode.Create);
+                FileStream fs = new FileStream(rutaArchivo, FileMode.Create);
                 //copiamos a FileSystem (fs) la imagen a traves del stream 
-                //vm.Imagen.CopyTo(fs);
+                vm.Imagen.CopyTo(fs);
 
+                CUAltaPais.Alta(vm.Nuevo);
                 return RedirectToAction(nameof(Index));
             }
             catch(PaisException ex)
@@ -112,22 +112,61 @@ namespace WebMVC.Controllers
         // GET: Paises/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            PaisViewModel vm1 = new PaisViewModel();
+            Pais p = new Pais();
+            vm1.Nuevo = p;
+            vm1.Nuevo.Id = id;
+            vm1.Regiones = CUListadoRegiones.ObtenerListado();
+            return View(vm1);
         }
 
         // POST: Paises/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Pais pais)
+        public ActionResult Edit(int id, PaisViewModel vm)
         {
             try
             {
-                CUModificarPais.Modificar(pais);
+                vm.Regiones = CUListadoRegiones.ObtenerListado();
+                vm.IdRegion = vm.Nuevo.RegionId;
+                vm.Regiones = CUListadoRegiones.ObtenerListado();
+
+                FileInfo fi = new FileInfo(vm.Imagen.FileName);
+                string extension = fi.Extension;
+
+                //creamos un nombre unico para la imagen
+                string nombreImagen = vm.Nuevo.CodigoISOAlfa3 + "_" + extension;
+                //guardamos ese nombre en el Pais
+                vm.Nuevo.Imagen = nombreImagen;
+
+                //obtenemos la ruta a la raiz de la aplicacion (wwwroot)
+                string rutaRaiz = WHE.WebRootPath;
+
+                //armamos la ruta a la carpeta "Banderas"
+                string rutaCarpeta = Path.Combine(rutaRaiz, "Banderas");
+
+                //armamos la ruta del archivo
+                string rutaArchivo = Path.Combine(rutaCarpeta, nombreImagen);
+
+
+                //si llegamos aca es porque el esta se dio, guardamos la img
+
+                //creamos un string para crear el archivo
+                FileStream fs = new FileStream(rutaArchivo, FileMode.Create);
+                //copiamos a FileSystem (fs) la imagen a traves del stream 
+                vm.Imagen.CopyTo(fs);
+                CUModificarPais.Modificar(vm.Nuevo);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (PaisException ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                return View(vm);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(vm);
             }
         }
 
@@ -147,8 +186,9 @@ namespace WebMVC.Controllers
                 CUBajaPais.Baja(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (PaisException ex)
             {
+                ViewBag.deleteError = ex.Message;
                 return View();
             }
         }
@@ -167,20 +207,25 @@ namespace WebMVC.Controllers
             try
             {
                 Pais paisBuscado = CUBuscarPais.Buscar(id);
-                if (paisBuscado == null)
-                {
+                if(paisBuscado == null) {
                     ViewBag.msg = "No hay paises con ese id";
                 }
-                return RedirectToAction(nameof(Index));
+                return View(paisBuscado);
             }
-            catch
+            catch (PaisException ex)
             {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
                 return View();
             }
         }
 
         // GET: Paises/BuscarPorCodigo
-        public ActionResult BuscarPorCodigo(string codigo)
+        public ActionResult BuscarPorCodigo(string CodigoISOAlfa3)
         {
             return View();
         }
@@ -188,19 +233,63 @@ namespace WebMVC.Controllers
         // POST: Paises/Buscar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BuscarPorCodigo(string codigo, IFormCollection collection)
+        public ActionResult BuscarPorCodigo(string CodigoISOAlfa3, IFormCollection collection)
         {
             try
             {
-                Pais paisBuscado = CUBuscarPais.Buscar(codigo);
+                Pais paisBuscado = CUBuscarPais.Buscar(CodigoISOAlfa3);
                 if (paisBuscado == null)
                 {
                     ViewBag.msg = "No hay paises con ese codigo";
                 }
-                return RedirectToAction(nameof(Index));
+                return View(paisBuscado);
             }
-            catch
+            catch (PaisException ex)
             {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+        }
+
+        // GET: Paises/BuscarPorCodigo
+        public ActionResult PaisPorRegion(int IdRegion)
+        {
+            PaisRegionModel vm = new PaisRegionModel();
+            vm.Regiones = CUListadoRegiones.ObtenerListado();
+            vm.Paises = CUListadoPaises.ObtenerListado();
+
+            return View(vm);
+        }
+
+        // POST: Paises/Buscar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PaisPorRegion(int IdRegion, PaisRegionModel vm)
+        {
+            try
+            {
+                IEnumerable<Pais> paisesBuscado = CUBuscarPais.BuscarPorRegion(IdRegion);
+                if (paisesBuscado == null)
+                {
+                    ViewBag.msg = "No hay paises en esa region";
+                }
+                vm.Paises = paisesBuscado;
+                vm.Regiones = CUListadoRegiones.ObtenerListado();
+                return View(vm);
+            }
+            catch (PaisException ex)
+            {
+                ViewBag.msg = ex.Message;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.msg = ex.Message;
                 return View();
             }
         }

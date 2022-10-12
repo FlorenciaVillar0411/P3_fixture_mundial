@@ -19,6 +19,8 @@ namespace LogicaAccesoDatos.Memoria
             paises.Add(nuevo);
         }
 
+ 
+
         public IEnumerable<Pais> FindAll()
         {
             return paises;
@@ -38,6 +40,11 @@ namespace LogicaAccesoDatos.Memoria
         public IEnumerable<Pais> GetPaisesByRegion(Region region)
         {
             return paises.FindAll(x => x.Region == region);
+        }
+
+        public IEnumerable<Pais> GetPaisesByRegion(int region)
+        {
+            throw new NotImplementedException();
         }
 
         public void Remove(int id)

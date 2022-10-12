@@ -40,7 +40,8 @@ namespace LogicaAccesoDatos.Memoria
             Selecciones[aModificar] = obj;
         }
 
-        public bool ValidarEliminacion()
+
+        public void ValidarEliminacion(Seleccion seleccion)
         {
             throw new NotImplementedException();
         }

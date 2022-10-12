@@ -23,6 +23,10 @@ namespace LogicaNegocio.Dominio
         public string Telefono { get; set; }
         public int CantidadApostadores { get; set; }
         public Grupo Grupo { get; set; }
+        [ForeignKey("Grupo")]
+        public int IdGrupo { get; set; }
+
+
 
         public void Validar()
         {

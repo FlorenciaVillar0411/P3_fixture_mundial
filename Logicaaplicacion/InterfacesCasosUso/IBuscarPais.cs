@@ -9,7 +9,7 @@ namespace LogicaAplicacion.InterfacesCasosUso
     {
         Pais Buscar(string codigo);
         Pais Buscar(int id);
-        IEnumerable<Pais> Buscar(Region region);
+        IEnumerable<Pais> BuscarPorRegion(int region);
 
     }
 }

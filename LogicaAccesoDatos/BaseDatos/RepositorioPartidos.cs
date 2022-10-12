@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Excepciones;
 using LogicaNegocio.Dominio;
 using LogicaNegocio.InterfacesRepositorios;
+using Microsoft.EntityFrameworkCore;
+
 namespace LogicaAccesoDatos.BaseDatos
 {
     public class RepositorioPartidos: IRepositorioPartidos
@@ -18,12 +21,73 @@ namespace LogicaAccesoDatos.BaseDatos
         {
             try
             {
+                nuevo.Validar();
+                ValidarPartidos(nuevo);
                 Contexto.Partidos.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede agregar el partido", e);
+            }
+        }
+        public void ValidarPartidos(Partido nuevo)
+        {
+            ValidarPartidosDeSelecciones(nuevo);
+            ValidarFechaYHorario(nuevo);
+
+        }
+
+        private void ValidarFechaYHorario(Partido nuevo)
+        {
+            List<Partido> partidos = Contexto.Partidos.Include(p => p.EquipoUno).ToList();
+
+            foreach (Partido p in partidos)
+            {
+                if (p.Fecha == nuevo.Fecha && p.Hora == nuevo.Hora)
+                {
+                    throw new PartidoException("Ya existe un partido al mismo tiempo");
+                }
+            }
+        }
+
+        private void ValidarPartidosDeSelecciones(Partido partido)
+        {
+            List<Partido> partidos = Contexto.Partidos.Include(p => p.EquipoUno).ToList();
+            int partidosEquipoUno = 0;
+            int partidosEquipoDos = 0;
+            foreach (Partido p in partidos)
+            {
+                if (p.EquipoUno == partido.EquipoUno || p.EquipoDos == partido.EquipoUno)
+                {
+                    partidosEquipoUno++;
+                    if (partidosEquipoUno >= 3)
+                    {
+                        throw new PartidoException("Seleccion 1 ya tiene 3 partidos asignados");
+                    }
+                }
+                if (p.EquipoUno == partido.EquipoDos || p.EquipoDos == partido.EquipoDos)
+                {
+                    partidosEquipoDos++;
+                    if (partidosEquipoDos >= 3)
+                    {
+                        throw new PartidoException("Seleccion 1 ya tiene 3 partidos asignados");
+                    }
+                }
+                PartidoYaJugado(partido, p);
+            }
+          
+        }
+
+        private void PartidoYaJugado(Partido partido, Partido p)
+        {
+            if (p.EquipoUno == partido.EquipoUno && p.EquipoDos == partido.EquipoDos)
+            {
+                throw new PartidoException("Partido ya ingresado");
+            }
+            if (p.EquipoDos == partido.EquipoUno && p.EquipoUno == partido.EquipoDos)
+            {
+                throw new PartidoException("Partido ya ingresado");
             }
         }
 
@@ -34,9 +98,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Update(partido);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede agregar resultados", e);
             }
         }
 
@@ -58,9 +122,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Remove(aBorrar);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede eliminar el Partido", e);
             }
         }
 
@@ -71,9 +135,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Partidos.Update(partido);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede editar el Partido", e);
             }
         }
 

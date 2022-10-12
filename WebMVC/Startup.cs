@@ -34,10 +34,15 @@ namespace WebMVC
             services.AddScoped<IListadoPaises, ListadoPaises>();
             services.AddScoped<IRepositorioPaises, RepositorioPaises>();
             services.AddScoped<IListadoRegiones, ListadoRegiones>();
+
             services.AddScoped<IAltaRegion, AltaRegion>();
             services.AddScoped<IRepositorioRegiones, RepositorioRegiones>();
             string strConnection = Configuration.GetConnectionString("MiConexion");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
+            services.AddScoped<IBajaPais, BajaPais>();
+            services.AddScoped<IModificarPais, ModificarPais>();
+            services.AddScoped<IBuscarPais, BuscarPais>();
+
 
         }
 

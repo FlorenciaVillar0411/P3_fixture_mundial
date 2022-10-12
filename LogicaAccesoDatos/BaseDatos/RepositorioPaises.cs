@@ -7,8 +7,6 @@ using System.Linq;
 using Excepciones;
 using Microsoft.EntityFrameworkCore;
 
-using Excepciones;
-
 namespace LogicaAccesoDatos.BaseDatos
 {
 

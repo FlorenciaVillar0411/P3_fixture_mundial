@@ -51,7 +51,7 @@ namespace LogicaNegocio.Dominio
             }
         }
 
-        public void ValidarCodigo(string CodigoISOAlfa3, string Nombre)
+        public void ValidarCodigo()
         {
             char primeraLetra = Nombre[0];
             if (CodigoISOAlfa3.Length < 3 && CodigoISOAlfa3.Length > 3 && !CodigoISOAlfa3.StartsWith(primeraLetra))

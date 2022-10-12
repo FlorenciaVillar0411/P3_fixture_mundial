@@ -93,5 +93,11 @@ namespace LogicaAccesoDatos.BaseDatos
                 }
             }
         }
+
+        public int VerGoles(int id)
+        {
+            //return Contexto.Tarjetas.Where(x => x.PartidoId == id);
+            return 1;
+        }
     }
 }

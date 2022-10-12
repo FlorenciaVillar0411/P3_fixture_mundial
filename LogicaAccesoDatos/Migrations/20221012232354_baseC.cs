@@ -2,7 +2,7 @@
 
 namespace LogicaAccesoDatos.Migrations
 {
-    public partial class fkdjsak : Migration
+    public partial class baseC : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -143,8 +143,7 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public IEnumerable<Tarjeta> VerTarjetas(int id)
         {
-            Partido partido = Contexto.Partidos.Find(id);
-            return partido.tarjetas;
+           return Contexto.Tarjetas.Where(x => x.PartidoId == id); ;
         }
     }
 }

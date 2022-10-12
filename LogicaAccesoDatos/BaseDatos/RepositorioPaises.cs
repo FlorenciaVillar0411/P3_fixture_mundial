@@ -38,7 +38,7 @@ namespace LogicaAccesoDatos.BaseDatos
 
         private void ValidarPaisEnSeleccion(Pais pais)
         {
-            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
+            List<Seleccion> selecciones = Contexto.Selecciones.ToList();
             foreach (Seleccion s in selecciones)
             {
                 if(s.Pais == pais)

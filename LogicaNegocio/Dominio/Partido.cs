@@ -13,11 +13,12 @@ namespace LogicaNegocio.Dominio
     public class Partido : IValidacion
     {
         public int Id { get; set; }
-        [Display(Name = "Seleccion 1")]
         public Seleccion EquipoUno { get; set; }
-        [ForeignKey("Seleccion")]
+        [ForeignKey("EquipoUno")]
+        public int EquipoUnoId { get; set; }
         public Seleccion EquipoDos { get; set; }
-     
+        public int EquipDosId { get; set; }
+
         public DateTime Fecha { get; set; }
 
         public int Hora { get; set; }

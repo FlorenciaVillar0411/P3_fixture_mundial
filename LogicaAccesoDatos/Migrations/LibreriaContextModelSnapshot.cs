@@ -110,7 +110,13 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("CantidadGolesEquipoUno")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EquipoUnoId")
+                    b.Property<int>("EquipDosId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EquipoDosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipoUnoId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Fecha")
@@ -128,16 +134,13 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("PuntajeEquipoUno")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Seleccion")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("EquipoDosId");
 
                     b.HasIndex("EquipoUnoId");
 
                     b.HasIndex("GrupoId");
-
-                    b.HasIndex("Seleccion");
 
                     b.ToTable("Partidos");
                 });
@@ -205,10 +208,10 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
-                    b.Property<int?>("PartidoId")
+                    b.Property<int>("PartidoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SeleccionId")
+                    b.Property<int>("SeleccionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -240,17 +243,19 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Partido", b =>
                 {
+                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoDos")
+                        .WithMany()
+                        .HasForeignKey("EquipoDosId");
+
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoUno")
                         .WithMany()
-                        .HasForeignKey("EquipoUnoId");
+                        .HasForeignKey("EquipoUnoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LogicaNegocio.Dominio.Grupo", null)
                         .WithMany("Partidos")
                         .HasForeignKey("GrupoId");
-
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoDos")
-                        .WithMany()
-                        .HasForeignKey("Seleccion");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Seleccion", b =>
@@ -268,13 +273,17 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Tarjeta", b =>
                 {
-                    b.HasOne("LogicaNegocio.Dominio.Partido", null)
+                    b.HasOne("LogicaNegocio.Dominio.Partido", "Partido")
                         .WithMany("tarjetas")
-                        .HasForeignKey("PartidoId");
+                        .HasForeignKey("PartidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "Seleccion")
                         .WithMany()
-                        .HasForeignKey("SeleccionId");
+                        .HasForeignKey("SeleccionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

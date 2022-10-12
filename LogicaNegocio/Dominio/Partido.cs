@@ -19,10 +19,12 @@ namespace LogicaNegocio.Dominio
         public Seleccion EquipoDos { get; set; }
      
         public DateTime Fecha { get; set; }
+
         public int Hora { get; set; }
         [Display(Name = "Goles seleccion 1")]
         public int CantidadGolesEquipoUno { get; set; }
         [Display(Name = "Goles seleccion 2")]
+
         public int CantidadGolesEquipoDos { get; set; }
         public IEnumerable<Tarjeta> tarjetas { get; set; }
         [Display(Name = "Puntos seleccion 1")]
@@ -36,6 +38,7 @@ namespace LogicaNegocio.Dominio
             ValidarFechas();
             ValidarHora();
             ValidarEquipos();
+
         }
         public void ValidarResultado()
         {
@@ -82,6 +85,11 @@ namespace LogicaNegocio.Dominio
             {
                 throw new PartidoException("Fechas inavlidas");
             }
+        }
+
+        public List<Tarjeta> GetTarjetas()
+        {
+            return (List<Tarjeta>)tarjetas;
         }
     }
 }

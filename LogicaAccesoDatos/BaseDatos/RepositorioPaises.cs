@@ -4,7 +4,9 @@ using System.Text;
 using LogicaNegocio.InterfacesRepositorios;
 using LogicaNegocio.Dominio;
 using System.Linq;
+using Excepciones;
 using Microsoft.EntityFrameworkCore;
+
 using Excepciones;
 
 namespace LogicaAccesoDatos.BaseDatos
@@ -57,11 +59,13 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public Pais FindById(int id)
         {
+            if (id == 0) throw new PaisException("El id del pais no puede ser 0");
             return Contexto.Paises.Find(id);
         }
 
         public Pais FindPaisByCodigo(string codigo)
         {
+
             List<Pais> paises = Contexto.Paises.ToList();
             foreach (Pais p in paises)
             {
@@ -83,9 +87,11 @@ namespace LogicaAccesoDatos.BaseDatos
             try
             {
                 Pais aBorrar = Contexto.Paises.Find(id);
+                if (aBorrar == null) throw new PaisException("No existe el pais a borrar");
                 ValidarPaisEnSeleccion(aBorrar);
                 Contexto.Paises.Remove(aBorrar);
                 Contexto.SaveChanges();
+                
             }
             catch (PaisException ex)
             {
@@ -105,9 +111,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Update(modificado);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new Exception("No se puede editar el Pais", e);
             }
         }
 

@@ -29,15 +29,7 @@ namespace LogicaNegocio.Dominio
 
 
         public void Validar()
-        {
-            ValidarNombres();
-            ValidarUnaSeleccionPorPais();
-            ValidarNombreContacto();
-            ValidarEmail();
-            ValidarNumeroTelefono();
-            ValidarCantidadesApostadoresPostiivas();
-        }
-        public void ValidarNombres()
+
         {
  
             if (Nombre == "")
@@ -54,10 +46,6 @@ namespace LogicaNegocio.Dominio
                 }
             }
             
-        }
-        public void ValidarUnaSeleccionPorPais()
-        {
-
         }
         public void ValidarNombreContacto()
         {
@@ -84,7 +72,7 @@ namespace LogicaNegocio.Dominio
         }
         public void ValidarNumeroTelefono()
         {
-            if(Telefono.Length != 7)
+            if(Telefono.Length < 7)
             {
                 throw new SeleccionException("Numero debe tener 7 digitos");
             }          

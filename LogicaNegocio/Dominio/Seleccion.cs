@@ -16,25 +16,20 @@ namespace LogicaNegocio.Dominio
         public int Id { get; set; }
         public Pais Pais { get; set; }
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
-        public string Nombre { get; set; }
-        [EmailAddress(ErrorMessage = "El Email no es valido")]
-        public string Email { get; set; }
-        [MinLength(7), Required(ErrorMessage = "Telefono debe tener al menos 7 caracteres numericos")]
 
+        public string Nombre { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
         public string Telefono { get; set; }
-       
         public int CantidadApostadores { get; set; }
         public Grupo Grupo { get; set; }
+        [ForeignKey("Grupo")]
+        public int IdGrupo { get; set; }
+
+
 
         public void Validar()
-        {
-            ValidarNombres();
-            ValidarNombreContacto();
-            ValidarEmail();
-            ValidarNumeroTelefono();
-            ValidarCantidadesApostadoresPostiivas();
-        }
-        public void ValidarNombres()
+
         {
  
             if (Nombre == "")

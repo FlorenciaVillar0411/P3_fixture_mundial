@@ -1,3 +1,4 @@
+
 ﻿using Excepciones;
 using LogicaNegocio.Dominio;
 using LogicaNegocio.InterfacesRepositorios;
@@ -15,6 +16,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PartidosController : ControllerBase
     {
+
         public IRepositorioPartidos RepoPartidos { get; set; }
 
         public PartidosController(IRepositorioPartidos repoPartidos)
@@ -63,6 +65,7 @@ namespace WebAPI.Controllers
 
         // POST api/<PartidosController>
         [HttpPost]
+
         public IActionResult Post([FromBody] Partido value)
         {
             try
@@ -83,6 +86,7 @@ namespace WebAPI.Controllers
 
         // PUT api/<PartidosController>/5
         [HttpPut("{id}")]
+
         public IActionResult Put(int id, [FromBody] Partido value)
         {
             try
@@ -104,6 +108,7 @@ namespace WebAPI.Controllers
 
         // DELETE api/<PartidosController>/5
         [HttpDelete("{id}")]
+
         public IActionResult Delete(int id)
         {
             try

@@ -23,7 +23,7 @@ namespace LogicaNegocio.Dominio
         public string Imagen { get; set; }
         [Required]
         public Region Region { get; set; }
-        [ForeignKey("Pais")]
+        [ForeignKey("Region")]
         public int RegionId { get; set; }
 
 

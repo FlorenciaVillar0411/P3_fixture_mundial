@@ -15,6 +15,10 @@ namespace LogicaNegocio.Dominio
 
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
         public IEnumerable<Partido> Partidos  { get; set; }
+        public Fase Fase { get; set; }
+        [ForeignKey("Fase")]
+        public int FaseId { get; set; }
+
 
 
         public void Validar()

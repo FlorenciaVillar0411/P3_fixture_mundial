@@ -1,5 +1,4 @@
-
-using Excepciones;
+﻿using Excepciones;
 using LogicaNegocio.Dominio;
 using LogicaNegocio.InterfacesRepositorios;
 using Microsoft.AspNetCore.Mvc;
@@ -14,49 +13,46 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PartidosController : ControllerBase
+    public class ResultadoController : ControllerBase
     {
+        public IRepositorioResultado RepoResultado { get; set; }
 
-        public IRepositorioPartidos RepoPartidos { get; set; }
-
-        public PartidosController(IRepositorioPartidos repoPartidos)
+        public ResultadoController(IRepositorioResultado repo)
         {
-            RepoPartidos = repoPartidos;
+            RepoResultado = repo;
         }
-        // GET: api/<PartidosController>
+        // GET: api/<ResultadoController>
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(RepoPartidos.FindAll());
+            return Ok(RepoResultado.FindAll());
         }
 
-        // GET api/<PartidosController>/5
+        // GET api/<ResultadoController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try
             {
                 if (id == 0) return BadRequest();
-                Partido buscado = RepoPartidos.FindById(id);
+                Resultado buscado = RepoResultado.FindById(id);
                 if (buscado == null) return NotFound();
                 return Ok(buscado);
             }
-            catch
+            catch(Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
-
-        // POST api/<PartidosController>
+        // POST api/<ResultadoController>
         [HttpPost]
-
-        public IActionResult Post([FromBody] Partido value)
+        public IActionResult Post([FromBody] Resultado value)
         {
             try
             {
                 if (value == null) return BadRequest();
-                RepoPartidos.Add(value);
+                RepoResultado.Add(value);
                 return Created("api/partidos" + value.Id, value);
             }
             catch (PartidoException ex)
@@ -69,16 +65,15 @@ namespace WebAPI.Controllers
             }
         }
 
-        // PUT api/<PartidosController>/5
+        // PUT api/<ResultadoController>/5
         [HttpPut("{id}")]
-
-        public IActionResult Put(int id, [FromBody] Partido value)
+        public IActionResult Put(int id, [FromBody] Resultado value)
         {
             try
             {
                 if (value == null || value == null) return BadRequest();
                 value.Id = id;
-                RepoPartidos.Update(value);
+                RepoResultado.Update(value);
                 return Created("api/partidos" + value.Id, value);
             }
             catch (PartidoException ex)
@@ -91,15 +86,14 @@ namespace WebAPI.Controllers
             }
         }
 
-        // DELETE api/<PartidosController>/5
+        // DELETE api/<ResultadoController>/5
         [HttpDelete("{id}")]
-
         public IActionResult Delete(int id)
         {
             try
             {
                 if (id == 0) return BadRequest();
-                RepoPartidos.Remove(id);
+                RepoResultado.Remove(id);
                 return NoContent();
             }
             catch (PartidoException ex)
@@ -111,5 +105,26 @@ namespace WebAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        // DELETE api/<PartidosFixtureController>/grupo
+        [HttpGet("grupo/{grupo}")]
+        public IActionResult PorGrupo(string grupo)
+        {
+            try
+            {
+                IEnumerable<Resultado> partidos = RepoResultado.PorGrupo(grupo);
+
+                return Ok(RepoResultado.PorGrupo(grupo));
+            }
+            catch (PartidoException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

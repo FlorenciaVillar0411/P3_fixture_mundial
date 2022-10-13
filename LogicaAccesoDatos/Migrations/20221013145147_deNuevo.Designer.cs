@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20221012191613_fks")]
-    partial class fks
+    [Migration("20221013145147_deNuevo")]
+    partial class deNuevo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,16 +112,16 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("CantidadGolesEquipoUno")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EquipoUnoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GrupoId")
+                    b.Property<int>("Hora")
                         .HasColumnType("int");
 
-                    b.Property<int>("Hora")
+                    b.Property<int>("IdEquipoDos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEquipoUno")
                         .HasColumnType("int");
 
                     b.Property<int>("PuntajeEquipoDos")
@@ -130,18 +130,37 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("PuntajeEquipoUno")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Seleccion")
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEquipoDos");
+
+                    b.HasIndex("IdEquipoUno");
+
+                    b.ToTable("Partidos");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Dominio.PartidoFixture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Hora")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEquipoDos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEquipoUno")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipoUnoId");
-
-                    b.HasIndex("GrupoId");
-
-                    b.HasIndex("Seleccion");
-
-                    b.ToTable("Partidos");
+                    b.ToTable("PartidosFixture");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Region", b =>
@@ -157,6 +176,35 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Regiones");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Dominio.Resultado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CantidadGolesEquipoDos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CantidadGolesEquipoUno")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPartido")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PuntajeEquipoDos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PuntajeEquipoUno")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPartido");
+
+                    b.ToTable("Resultados");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Seleccion", b =>
@@ -180,7 +228,7 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
-                    b.Property<int?>("PaisId")
+                    b.Property<int>("PaisId")
                         .HasColumnType("int");
 
                     b.Property<string>("Telefono")
@@ -207,10 +255,10 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
-                    b.Property<int?>("PartidoId")
+                    b.Property<int>("PartidoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SeleccionId")
+                    b.Property<int>("SeleccionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -242,17 +290,26 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Partido", b =>
                 {
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoUno")
-                        .WithMany()
-                        .HasForeignKey("EquipoUnoId");
-
-                    b.HasOne("LogicaNegocio.Dominio.Grupo", null)
-                        .WithMany("Partidos")
-                        .HasForeignKey("GrupoId");
-
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoDos")
                         .WithMany()
-                        .HasForeignKey("Seleccion");
+                        .HasForeignKey("IdEquipoDos")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoUno")
+                        .WithMany()
+                        .HasForeignKey("IdEquipoUno")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LogicaNegocio.Dominio.Resultado", b =>
+                {
+                    b.HasOne("LogicaNegocio.Dominio.PartidoFixture", "Partido")
+                        .WithMany()
+                        .HasForeignKey("IdPartido")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Seleccion", b =>
@@ -265,18 +322,24 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasOne("LogicaNegocio.Dominio.Pais", "Pais")
                         .WithMany()
-                        .HasForeignKey("PaisId");
+                        .HasForeignKey("PaisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Tarjeta", b =>
                 {
-                    b.HasOne("LogicaNegocio.Dominio.Partido", null)
-                        .WithMany("tarjetas")
-                        .HasForeignKey("PartidoId");
+                    b.HasOne("LogicaNegocio.Dominio.PartidoFixture", "Partido")
+                        .WithMany()
+                        .HasForeignKey("PartidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "Seleccion")
                         .WithMany()
-                        .HasForeignKey("SeleccionId");
+                        .HasForeignKey("SeleccionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

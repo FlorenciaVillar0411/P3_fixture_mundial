@@ -22,6 +22,7 @@ namespace LogicaAccesoDatos.BaseDatos
             {
                 obj.Validar();
                 ValidarUnicaPorPais(obj);
+                ValidarGrupo(obj);
                 Contexto.Selecciones.Add(obj);
                 Contexto.SaveChanges();
             }
@@ -33,24 +34,47 @@ namespace LogicaAccesoDatos.BaseDatos
 
         private void ValidarUnicaPorPais(Seleccion nuevo)
         {
-            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
+            IEnumerable<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
             foreach (Seleccion s in selecciones)
             {
-                if (s.Pais == nuevo.Pais)
+                if (s.Pais.Id == nuevo.PaisId)
                 {
                     throw new SeleccionException("Pais ya tiene seleccion");
+                }
+            }
+        }
+        private void ValidarGrupo(Seleccion nuevo)
+        {
+            IEnumerable<Grupo> grupos = Contexto.Grupos.ToList();
+            foreach (Grupo g in grupos)
+            {
+                if (g.Id == nuevo.IdGrupo)
+                {
+                    g.Validar();
                 }
             }
         }
 
         public IEnumerable<Seleccion> FindAll()
         {
-            return Contexto.Selecciones.ToList();
+            return Contexto.Selecciones.Include(s => s.Pais).Include(s => s.Grupo).ToList();
         }
 
         public Seleccion FindById(int id)
         {
-            return Contexto.Selecciones.Find(id);
+            try
+            {
+                Seleccion buscada = Contexto.Selecciones.Find(id);
+                Pais pais = Contexto.Paises.Find(buscada.PaisId);
+                Grupo grupo = Contexto.Grupos.Find(buscada.IdGrupo);
+                buscada.Pais = pais;
+                buscada.Grupo = grupo;
+                return buscada;
+            }
+            catch (Exception e)
+            {
+                throw new SeleccionException(e.Message);
+            }
         }
 
         public void Remove(int id)
@@ -62,9 +86,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Selecciones.Remove(aBorrar);
                 Contexto.SaveChanges();
             }
-            catch
+            catch(Exception e)
             {
-                throw new NotImplementedException();
+                throw new SeleccionException(e.Message);
             }
         }
 
@@ -76,20 +100,63 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Selecciones.Update(obj);
                 Contexto.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new NotImplementedException();
+                throw new SeleccionException(ex.Message);
             }
+        }
+        public int Goles(Seleccion obj)
+        {
+            int goles = 0;
+            List<Resultado> partidos = Contexto.Resultados.Include(r => r.Partido).ToList();
+            foreach (Resultado p in partidos)
+            {
+                if (p.Partido.IdEquipoUno == obj.Id)
+                {
+                    goles += p.CantidadGolesEquipoUno;
+                }
+                if (p.Partido.IdEquipoDos == obj.Id)
+                {
+                    goles += p.CantidadGolesEquipoDos;
+                }
+            }
+            return goles;
+        }
+        public int Puntaje(Seleccion obj)
+        {
+            int puntaje = 0;
+            List<Resultado> partidos = Contexto.Resultados.Include(r => r.Partido).ToList();
+            foreach (Resultado p in partidos)
+            {
+                if (p.Partido.IdEquipoUno == obj.Id)
+                {
+                    puntaje += p.PuntajeEquipoUno;
+                }
+                if (p.Partido.IdEquipoDos == obj.Id)
+                {
+                    puntaje += p.PuntajeEquipoDos;
+                }
+            }
+            return puntaje;
+        }
+        public IEnumerable<Tarjeta> VerTarjetas(int id)
+        {
+            IEnumerable<Tarjeta> tarjetas =  Contexto.Tarjetas.Include(x => x.Partido).ToList();
+            return tarjetas.Where(t => t.PartidoId == id);
+
         }
 
         public void ValidarEliminacion(Seleccion aBorrar)
         {
-            List<Partido> partidos = Contexto.Partidos.Include(p => p.EquipoUno).ToList();
-            foreach (Partido p in partidos)
+            if(aBorrar == null)
             {
-                if (p.EquipoUno == aBorrar || p.EquipoDos == aBorrar)
+                List<PartidoFixture> partidos = Contexto.PartidosFixture.ToList();
+                foreach (PartidoFixture p in partidos)
                 {
-                    throw new SeleccionException("Seleccion tiene partidos asignados");
+                    if (p.IdEquipoUno == aBorrar.Id || p.IdEquipoDos == aBorrar.Id)
+                    {
+                        throw new SeleccionException("Seleccion tiene partidos asignados");
+                    }
                 }
             }
         }

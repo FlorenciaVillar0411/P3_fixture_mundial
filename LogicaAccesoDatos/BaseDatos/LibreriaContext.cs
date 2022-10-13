@@ -13,9 +13,12 @@ namespace LogicaAccesoDatos.BaseDatos
             public DbSet<Partido> Partidos { get; set; }
             public DbSet<Seleccion> Selecciones { get; set; }
             public DbSet<Tarjeta> Tarjetas { get; set; }
+            public DbSet<PartidoFixture> PartidosFixture { get; set; }
+            public DbSet<Resultado> Resultados { get; set; }
 
 
-            public LibreriaContext(DbContextOptions<LibreriaContext> opciones) : base(opciones)
+
+        public LibreriaContext(DbContextOptions<LibreriaContext> opciones) : base(opciones)
             {
             }
         

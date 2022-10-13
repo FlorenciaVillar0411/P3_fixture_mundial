@@ -28,7 +28,7 @@ namespace LogicaAccesoDatos.BaseDatos
             }
             catch (Exception e)
             {
-                throw new Exception("No se puede agregar el partido", e);
+                throw new Exception(e.Message);
             }
         }
         public void ValidarPartidos(Partido nuevo)
@@ -141,10 +141,5 @@ namespace LogicaAccesoDatos.BaseDatos
             }
         }
 
-        public IEnumerable<Tarjeta> VerTarjetas(int id)
-        {
-            return Contexto.Tarjetas.Where(x => x.PartidoId == id);
-            
-        }
     }
 }

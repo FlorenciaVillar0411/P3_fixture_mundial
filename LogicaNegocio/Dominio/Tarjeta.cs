@@ -16,7 +16,7 @@ namespace LogicaNegocio.Dominio
         [ForeignKey("Seleccion")]
         public int SeleccionId { get; set; }
 
-        public Partido Partido { get; set; }
+        public PartidoFixture Partido { get; set; }
         [ForeignKey("Partido")]
         public int PartidoId { get; set; }
 

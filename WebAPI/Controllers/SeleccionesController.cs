@@ -95,7 +95,7 @@ namespace WebAPI.Controllers
             {
                 if (id == 0) return BadRequest();
                 RepoSelecciones.Remove(id);
-                return NoContent();
+                return Ok(NoContent());
             }
             catch (SeleccionException ex)
             {
@@ -106,5 +106,50 @@ namespace WebAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        // GET api/<SeleccionesController>/5/goles
+        [HttpGet("{id}/goles")]
+        public IActionResult Goles(int id)
+        {
+            try
+            {
+                if (id == 0) return BadRequest();
+                Seleccion buscado = RepoSelecciones.FindById(id);
+                if (buscado == null) return NotFound();
+                int goles = RepoSelecciones.Goles(buscado);
+                return Ok(goles);
+            }
+            catch (SeleccionException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        // GET api/<SeleccionesController>/5/puntaje
+        [HttpGet("{id}/puntaje")]
+        public IActionResult Puntaje(int id)
+        {
+            try
+            {
+                if (id == 0) return BadRequest();
+                Seleccion buscado = RepoSelecciones.FindById(id);
+                if (buscado == null) return NotFound();
+                int goles = RepoSelecciones.Puntaje(buscado);
+                return Ok(goles);
+            }
+            catch (SeleccionException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        
     }
 }

@@ -28,6 +28,16 @@ namespace LogicaAccesoDatos.Memoria
             return Selecciones.Find(x => x.Id == id);
         }
 
+        public int Goles(Seleccion seleccion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Puntaje(Seleccion obj)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Remove(int id)
         {
             Seleccion aBorrar = Selecciones.Find(x => x.Id == id);
@@ -42,6 +52,11 @@ namespace LogicaAccesoDatos.Memoria
 
 
         public void ValidarEliminacion(Seleccion seleccion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Tarjeta> VerTarjetas(int id)
         {
             throw new NotImplementedException();
         }

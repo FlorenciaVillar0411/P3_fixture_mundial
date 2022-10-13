@@ -2,7 +2,7 @@
 
 namespace LogicaAccesoDatos.Migrations
 {
-    public partial class fhsdkfh : Migration
+    public partial class table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

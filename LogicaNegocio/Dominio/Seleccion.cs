@@ -15,8 +15,9 @@ namespace LogicaNegocio.Dominio
     {
         public int Id { get; set; }
         public Pais Pais { get; set; }
+        [ForeignKey("Pais")]
+        public int IdPais { get; set; }
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
-
         public string Nombre { get; set; }
         [EmailAddress]
         public string Email { get; set; }

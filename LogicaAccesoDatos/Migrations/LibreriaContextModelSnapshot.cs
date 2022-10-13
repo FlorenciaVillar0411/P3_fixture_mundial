@@ -130,10 +130,6 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEquipoDos");
-
-                    b.HasIndex("IdEquipoUno");
-
                     b.ToTable("Partidos");
                 });
 
@@ -168,13 +164,13 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("IdGrupo")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdPais")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
-
-                    b.Property<int?>("PaisId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
@@ -183,7 +179,7 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasIndex("IdGrupo");
 
-                    b.HasIndex("PaisId");
+                    b.HasIndex("IdPais");
 
                     b.ToTable("Selecciones");
                 });
@@ -233,21 +229,6 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LogicaNegocio.Dominio.Partido", b =>
-                {
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoDos")
-                        .WithMany()
-                        .HasForeignKey("IdEquipoDos")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoUno")
-                        .WithMany()
-                        .HasForeignKey("IdEquipoUno")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("LogicaNegocio.Dominio.Seleccion", b =>
                 {
                     b.HasOne("LogicaNegocio.Dominio.Grupo", "Grupo")
@@ -258,7 +239,9 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasOne("LogicaNegocio.Dominio.Pais", "Pais")
                         .WithMany()
-                        .HasForeignKey("PaisId");
+                        .HasForeignKey("IdPais")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Tarjeta", b =>

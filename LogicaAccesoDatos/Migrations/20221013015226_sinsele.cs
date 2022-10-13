@@ -2,7 +2,7 @@
 
 namespace LogicaAccesoDatos.Migrations
 {
-    public partial class nueva : Migration
+    public partial class sinsele : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -25,9 +25,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Selecciones.Add(obj);
                 Contexto.SaveChanges();
             }
-            catch
+            catch(Exception ex )
             {
-                throw new NotImplementedException();
+                throw new SeleccionException(ex.Message);
             }
         }
 

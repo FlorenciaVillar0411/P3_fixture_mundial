@@ -4,14 +4,16 @@ using LogicaAccesoDatos.BaseDatos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    partial class LibreriaContextModelSnapshot : ModelSnapshot
+    [Migration("20221013001544_sacarpartidegrup")]
+    partial class sacarpartidegrup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,10 +202,10 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
-                    b.Property<int>("PartidoId")
+                    b.Property<int?>("PartidoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SeleccionId")
+                    b.Property<int?>("SeleccionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -263,17 +265,13 @@ namespace LogicaAccesoDatos.Migrations
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Tarjeta", b =>
                 {
-                    b.HasOne("LogicaNegocio.Dominio.Partido", "Partido")
-                        .WithMany()
-                        .HasForeignKey("PartidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("LogicaNegocio.Dominio.Partido", null)
+                        .WithMany("tarjetas")
+                        .HasForeignKey("PartidoId");
 
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "Seleccion")
                         .WithMany()
-                        .HasForeignKey("SeleccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SeleccionId");
                 });
 #pragma warning restore 612, 618
         }

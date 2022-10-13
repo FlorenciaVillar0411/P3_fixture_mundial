@@ -4,14 +4,16 @@ using LogicaAccesoDatos.BaseDatos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LogicaAccesoDatos.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    partial class LibreriaContextModelSnapshot : ModelSnapshot
+    [Migration("20221012235519_bda")]
+    partial class bda
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,16 +112,19 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("CantidadGolesEquipoUno")
                         .HasColumnType("int");
 
+                    b.Property<int>("EquipoDosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipoUnoId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("GrupoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Hora")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdEquipoDos")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdEquipoUno")
                         .HasColumnType("int");
 
                     b.Property<int>("PuntajeEquipoDos")
@@ -130,9 +135,11 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEquipoDos");
+                    b.HasIndex("EquipoDosId");
 
-                    b.HasIndex("IdEquipoUno");
+                    b.HasIndex("EquipoUnoId");
+
+                    b.HasIndex("GrupoId");
 
                     b.ToTable("Partidos");
                 });
@@ -237,15 +244,19 @@ namespace LogicaAccesoDatos.Migrations
                 {
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoDos")
                         .WithMany()
-                        .HasForeignKey("IdEquipoDos")
+                        .HasForeignKey("EquipoDosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoUno")
                         .WithMany()
-                        .HasForeignKey("IdEquipoUno")
+                        .HasForeignKey("EquipoUnoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("LogicaNegocio.Dominio.Grupo", null)
+                        .WithMany("Partidos")
+                        .HasForeignKey("GrupoId");
                 });
 
             modelBuilder.Entity("LogicaNegocio.Dominio.Seleccion", b =>
@@ -264,7 +275,7 @@ namespace LogicaAccesoDatos.Migrations
             modelBuilder.Entity("LogicaNegocio.Dominio.Tarjeta", b =>
                 {
                     b.HasOne("LogicaNegocio.Dominio.Partido", "Partido")
-                        .WithMany()
+                        .WithMany("tarjetas")
                         .HasForeignKey("PartidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

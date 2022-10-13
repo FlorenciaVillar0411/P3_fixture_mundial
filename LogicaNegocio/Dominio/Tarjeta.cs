@@ -13,6 +13,13 @@ namespace LogicaNegocio.Dominio
         [MinLength(3), MaxLength(25), Required(ErrorMessage = "Color es obligatorio")]
         public string Color { get; set; }
         public Seleccion Seleccion { get; set; }
+        [ForeignKey("Seleccion")]
+        public int SeleccionId { get; set; }
+
+        public Partido Partido { get; set; }
+        [ForeignKey("Partido")]
+        public int PartidoId { get; set; }
+
 
     }
 }

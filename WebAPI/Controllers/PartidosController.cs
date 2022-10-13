@@ -53,9 +53,7 @@ namespace WebAPI.Controllers
             try
             {
                 if (id == 0) return BadRequest();
-                Partido buscado = RepoPartidos.FindById(id);
-                if (buscado == null) return NotFound();
-                return Ok(buscado.GetTarjetas());
+                return Ok(RepoPartidos.VerTarjetas(id));
             }
             catch
             {

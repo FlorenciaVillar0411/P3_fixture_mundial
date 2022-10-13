@@ -13,11 +13,12 @@ namespace LogicaNegocio.Dominio
     public class Partido : IValidacion
     {
         public int Id { get; set; }
-        [Display(Name = "Seleccion 1")]
         public Seleccion EquipoUno { get; set; }
-        [ForeignKey("Seleccion")]
+        [ForeignKey("EquipoUno")]
+        public int IdEquipoUno { get; set; }
         public Seleccion EquipoDos { get; set; }
-     
+        [ForeignKey("EquipoDos")]
+        public int IdEquipoDos { get; set; }
         public DateTime Fecha { get; set; }
 
         public int Hora { get; set; }
@@ -26,7 +27,6 @@ namespace LogicaNegocio.Dominio
         [Display(Name = "Goles seleccion 2")]
 
         public int CantidadGolesEquipoDos { get; set; }
-        public IEnumerable<Tarjeta> tarjetas { get; set; }
         [Display(Name = "Puntos seleccion 1")]
         public int PuntajeEquipoUno { get; set; }
         [Display(Name = "Puntos seleccion 2")]
@@ -85,11 +85,6 @@ namespace LogicaNegocio.Dominio
             {
                 throw new PartidoException("Fechas inavlidas");
             }
-        }
-
-        public List<Tarjeta> GetTarjetas()
-        {
-            return (List<Tarjeta>)tarjetas;
         }
     }
 }

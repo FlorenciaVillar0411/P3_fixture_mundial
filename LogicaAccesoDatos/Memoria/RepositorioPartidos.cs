@@ -47,8 +47,7 @@ namespace LogicaAccesoDatos.Memoria
 
         public IEnumerable<Tarjeta> VerTarjetas(int id)
         {
-            Partido partido =  Partidos.Find(x => x.Id == id);
-            return partido.tarjetas;
+            throw new NotImplementedException();
         }
     }
 }

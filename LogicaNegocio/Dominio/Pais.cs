@@ -22,7 +22,6 @@ namespace LogicaNegocio.Dominio
         public int Poblacion { get; set; }
         public string Imagen { get; set; }
         [Required]
-        public Region Region { get; set; }
         [ForeignKey("Region")]
         public int RegionId { get; set; }
 

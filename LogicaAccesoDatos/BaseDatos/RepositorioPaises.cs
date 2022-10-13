@@ -13,7 +13,6 @@ namespace LogicaAccesoDatos.BaseDatos
     public class RepositorioPaises : IRepositorioPaises
     {
         public LibreriaContext Contexto { get; set; }
-
         public RepositorioPaises(LibreriaContext context)
         {
             Contexto = context;
@@ -35,13 +34,12 @@ namespace LogicaAccesoDatos.BaseDatos
                 throw new PaisException(ex.Message);
             }
         }
-
         private void ValidarPaisEnSeleccion(Pais pais)
         {
-            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
+            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.IdPais).ToList();
             foreach (Seleccion s in selecciones)
             {
-                if(s.Pais == pais)
+                if(s.IdPais == pais.Id)
                 {
                     throw new PaisException("Pais tiene seleccion");
                 }
@@ -77,7 +75,7 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public IEnumerable<Pais> GetPaisesByRegion(int region)
         {
-            return Contexto.Paises.Where(x => x.Region.Id == region);
+            return Contexto.Paises.Where(x => x.RegionId == region);
         }
 
         public void Remove(int id)

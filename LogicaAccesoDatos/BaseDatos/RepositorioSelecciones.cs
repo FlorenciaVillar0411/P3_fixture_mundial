@@ -33,10 +33,10 @@ namespace LogicaAccesoDatos.BaseDatos
 
         private void ValidarUnicaPorPais(Seleccion nuevo)
         {
-            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
+            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.IdPais).ToList();
             foreach (Seleccion s in selecciones)
             {
-                if (s.Pais == nuevo.Pais)
+                if (s.IdPais == nuevo.IdPais)
                 {
                     throw new SeleccionException("Pais ya tiene seleccion");
                 }
@@ -84,10 +84,10 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public void ValidarEliminacion(Seleccion aBorrar)
         {
-            List<Partido> partidos = Contexto.Partidos.Include(p => p.EquipoUno).ToList();
+            List<Partido> partidos = Contexto.Partidos.Include(p => p.IdEquipoUno).ToList();
             foreach (Partido p in partidos)
             {
-                if (p.EquipoUno == aBorrar || p.EquipoDos == aBorrar)
+                if (p.IdEquipoUno == aBorrar.Id || p.IdEquipoDos == aBorrar.Id)
                 {
                     throw new SeleccionException("Seleccion tiene partidos asignados");
                 }

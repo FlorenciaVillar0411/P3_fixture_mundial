@@ -39,7 +39,7 @@ namespace LogicaAccesoDatos.Memoria
 
         public IEnumerable<Pais> GetPaisesByRegion(Region region)
         {
-            return paises.FindAll(x => x.Region == region);
+            return paises.FindAll(x => x.RegionId == region.Id);
         }
 
         public IEnumerable<Pais> GetPaisesByRegion(int region)

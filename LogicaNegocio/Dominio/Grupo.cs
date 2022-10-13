@@ -13,8 +13,6 @@ namespace LogicaNegocio.Dominio
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-        [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
-        public Fase Fase { get; set; }
         [ForeignKey("Fase")]
         public int FaseId { get; set; }
 

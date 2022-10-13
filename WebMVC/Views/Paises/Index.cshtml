@@ -40,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.Imagen)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Region)
+                @Html.DisplayNameFor(model => model.RegionId)
             </th>
             <th></th>
         </tr>
@@ -68,7 +68,7 @@
         <image src="Banderas/@item.Imagen" height="50px"> </image>
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Region.Id)
+        @Html.DisplayFor(modelItem => item.RegionId)
     </td>
 
     <td>

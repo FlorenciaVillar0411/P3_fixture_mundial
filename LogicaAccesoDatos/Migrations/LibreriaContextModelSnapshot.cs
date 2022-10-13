@@ -57,8 +57,6 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FaseId");
-
                     b.ToTable("Grupos");
                 });
 
@@ -91,8 +89,6 @@ namespace LogicaAccesoDatos.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
 
                     b.ToTable("Paises");
                 });
@@ -130,10 +126,6 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEquipoDos");
-
-                    b.HasIndex("IdEquipoUno");
-
                     b.ToTable("Partidos");
                 });
 
@@ -168,22 +160,18 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("IdGrupo")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdPais")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
 
-                    b.Property<int?>("PaisId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdGrupo");
-
-                    b.HasIndex("PaisId");
 
                     b.ToTable("Selecciones");
                 });
@@ -208,72 +196,7 @@ namespace LogicaAccesoDatos.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PartidoId");
-
-                    b.HasIndex("SeleccionId");
-
                     b.ToTable("Tarjetas");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Dominio.Grupo", b =>
-                {
-                    b.HasOne("LogicaNegocio.Dominio.Fase", "Fase")
-                        .WithMany()
-                        .HasForeignKey("FaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Dominio.Pais", b =>
-                {
-                    b.HasOne("LogicaNegocio.Dominio.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Dominio.Partido", b =>
-                {
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoDos")
-                        .WithMany()
-                        .HasForeignKey("IdEquipoDos")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "EquipoUno")
-                        .WithMany()
-                        .HasForeignKey("IdEquipoUno")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Dominio.Seleccion", b =>
-                {
-                    b.HasOne("LogicaNegocio.Dominio.Grupo", "Grupo")
-                        .WithMany()
-                        .HasForeignKey("IdGrupo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogicaNegocio.Dominio.Pais", "Pais")
-                        .WithMany()
-                        .HasForeignKey("PaisId");
-                });
-
-            modelBuilder.Entity("LogicaNegocio.Dominio.Tarjeta", b =>
-                {
-                    b.HasOne("LogicaNegocio.Dominio.Partido", "Partido")
-                        .WithMany()
-                        .HasForeignKey("PartidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LogicaNegocio.Dominio.Seleccion", "Seleccion")
-                        .WithMany()
-                        .HasForeignKey("SeleccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

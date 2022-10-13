@@ -14,7 +14,8 @@ namespace LogicaNegocio.Dominio
     public class Seleccion : IValidacion
     {
         public int Id { get; set; }
-        public Pais Pais { get; set; }
+        [ForeignKey("Pais")]
+        public int IdPais { get; set; }
         [MinLength(1), MaxLength(25), Required(ErrorMessage = "Nombre es obligatorio")]
 
         public string Nombre { get; set; }
@@ -22,7 +23,6 @@ namespace LogicaNegocio.Dominio
         public string Email { get; set; }
         public string Telefono { get; set; }
         public int CantidadApostadores { get; set; }
-        public Grupo Grupo { get; set; }
         [ForeignKey("Grupo")]
         public int IdGrupo { get; set; }
 

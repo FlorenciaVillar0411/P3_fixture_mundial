@@ -40,7 +40,7 @@ namespace LogicaAccesoDatos.BaseDatos
 
         private void ValidarFechaYHorario(Partido nuevo)
         {
-            List<Partido> partidos = Contexto.Partidos.Include(p => p.EquipoUno).ToList();
+            List<Partido> partidos = Contexto.Partidos.Include(p => p.IdEquipoUno).ToList();
 
             foreach (Partido p in partidos)
             {
@@ -53,12 +53,12 @@ namespace LogicaAccesoDatos.BaseDatos
 
         private void ValidarPartidosDeSelecciones(Partido partido)
         {
-            List<Partido> partidos = Contexto.Partidos.Include(p => p.EquipoUno).ToList();
+            List<Partido> partidos = Contexto.Partidos.Include(p => p.IdEquipoUno).ToList();
             int partidosEquipoUno = 0;
             int partidosEquipoDos = 0;
             foreach (Partido p in partidos)
             {
-                if (p.EquipoUno == partido.EquipoUno || p.EquipoDos == partido.EquipoUno)
+                if (p.IdEquipoUno == partido.IdEquipoUno || p.IdEquipoDos == partido.IdEquipoUno)
                 {
                     partidosEquipoUno++;
                     if (partidosEquipoUno >= 3)
@@ -66,7 +66,7 @@ namespace LogicaAccesoDatos.BaseDatos
                         throw new PartidoException("Seleccion 1 ya tiene 3 partidos asignados");
                     }
                 }
-                if (p.EquipoUno == partido.EquipoDos || p.EquipoDos == partido.EquipoDos)
+                if (p.IdEquipoUno == partido.IdEquipoDos || p.IdEquipoUno == partido.IdEquipoDos)
                 {
                     partidosEquipoDos++;
                     if (partidosEquipoDos >= 3)
@@ -81,11 +81,11 @@ namespace LogicaAccesoDatos.BaseDatos
 
         private void PartidoYaJugado(Partido partido, Partido p)
         {
-            if (p.EquipoUno == partido.EquipoUno && p.EquipoDos == partido.EquipoDos)
+            if (p.IdEquipoUno == partido.IdEquipoUno && p.IdEquipoDos == partido.IdEquipoDos)
             {
                 throw new PartidoException("Partido ya ingresado");
             }
-            if (p.EquipoDos == partido.EquipoUno && p.EquipoUno == partido.EquipoDos)
+            if (p.IdEquipoDos == partido.IdEquipoUno && p.IdEquipoUno == partido.IdEquipoDos)
             {
                 throw new PartidoException("Partido ya ingresado");
             }

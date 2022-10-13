@@ -13,11 +13,7 @@ namespace LogicaNegocio.Dominio
     public class Partido : IValidacion
     {
         public int Id { get; set; }
-        public Seleccion EquipoUno { get; set; }
-        [ForeignKey("EquipoUno")]
         public int IdEquipoUno { get; set; }
-        public Seleccion EquipoDos { get; set; }
-        [ForeignKey("EquipoDos")]
         public int IdEquipoDos { get; set; }
         public DateTime Fecha { get; set; }
 
@@ -58,14 +54,14 @@ namespace LogicaNegocio.Dominio
 
         private void ValidarEquipos()
         {
-            if (EquipoUno == EquipoDos)
+            if (IdEquipoUno ==IdEquipoDos)
             {
                 throw new PartidoException("Seleccion no puede jugar contra si misma");
             }
-            if (EquipoUno.Grupo.Id != EquipoDos.Grupo.Id)
-            {
-                throw new PartidoException("Seleccion no puede jugar contra si misma");
-            }
+            //if (IdEquipoUno.Grupo.Id != EquipoDos.Grupo.Id)
+            //{
+            //    throw new PartidoException("Seleccion no puede jugar contra si misma");
+            //}
         }
 
         private void ValidarHora()

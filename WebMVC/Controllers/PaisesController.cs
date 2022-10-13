@@ -65,7 +65,7 @@ namespace WebMVC.Controllers
             try
             {
                 vm.Regiones = CUListadoRegiones.ObtenerListado();
-                vm.IdRegion = vm.Nuevo.RegionId;
+                vm.Nuevo.RegionId = vm.IdRegion;
                 vm.Regiones = CUListadoRegiones.ObtenerListado();
 
                 FileInfo fi = new FileInfo(vm.Imagen.FileName);
@@ -128,7 +128,7 @@ namespace WebMVC.Controllers
             try
             {
                 vm.Regiones = CUListadoRegiones.ObtenerListado();
-                vm.IdRegion = vm.Nuevo.RegionId;
+                vm.Nuevo.RegionId = vm.IdRegion;
                 vm.Regiones = CUListadoRegiones.ObtenerListado();
 
                 FileInfo fi = new FileInfo(vm.Imagen.FileName);

@@ -1,9 +1,8 @@
-﻿using LogicaNegocio.Dominio;
+using LogicaNegocio.Dominio;
 using Microsoft.EntityFrameworkCore;
 using System;
 namespace LogicaAccesoDatos.BaseDatos
-{
-    
+{    
         public class LibreriaContext : DbContext
         {
             public DbSet<Pais> Paises { get; set; }

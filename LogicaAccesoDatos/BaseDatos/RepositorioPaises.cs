@@ -7,6 +7,7 @@ using System.Linq;
 using Excepciones;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace LogicaAccesoDatos.BaseDatos
 {
 
@@ -47,6 +48,7 @@ namespace LogicaAccesoDatos.BaseDatos
                 }
             }
              
+
         }
 
         public IEnumerable<Pais> FindAll()

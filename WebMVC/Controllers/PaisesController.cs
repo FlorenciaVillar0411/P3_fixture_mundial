@@ -106,6 +106,7 @@ namespace WebMVC.Controllers
             {
                 ViewBag.Error = ex.Message;
                 return View(vm);
+
             }
         }
 

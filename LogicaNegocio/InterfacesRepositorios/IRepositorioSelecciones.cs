@@ -9,8 +9,11 @@ namespace LogicaNegocio.InterfacesRepositorios
     {
         void ValidarEliminacion(Seleccion seleccion);
         public int Goles(Seleccion seleccion);
+        public int GolesEnContra(Seleccion seleccion);
         public IEnumerable<Tarjeta> VerTarjetas(int id);
         public int Puntaje(Seleccion obj);
+
+        public IEnumerable<Seleccion> FindByGroup(string nomGrupo);
 
     }
 }

@@ -76,7 +76,7 @@ namespace LogicaNegocio.Dominio
         }
         public void ValidarCantidadesApostadoresPostiivas()
         {
-            if(CantidadApostadores != null && CantidadApostadores <= 0)
+            if(CantidadApostadores <= 0)
             {
                 throw new SeleccionException("La cantidad de apostadoresdebe ser mayor a cero");
             }

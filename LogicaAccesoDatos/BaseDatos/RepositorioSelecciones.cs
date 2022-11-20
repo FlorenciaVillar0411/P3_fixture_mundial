@@ -60,6 +60,11 @@ namespace LogicaAccesoDatos.BaseDatos
             return Contexto.Selecciones.Include(s => s.Pais).Include(s => s.Grupo).ToList();
         }
 
+        public IEnumerable<Seleccion> FindByGroup( string nomGrupo)
+        {
+            return Contexto.Selecciones.Include(s => s.Pais).Include(s => s.Grupo).Where(s => s.Grupo.Nombre == nomGrupo).ToList();
+        }
+
         public Seleccion FindById(int id)
         {
             try
@@ -118,6 +123,24 @@ namespace LogicaAccesoDatos.BaseDatos
                 if (p.Partido.IdEquipoDos == obj.Id)
                 {
                     goles += p.CantidadGolesEquipoDos;
+                }
+            }
+            return goles;
+        }
+
+        public int GolesEnContra(Seleccion obj)
+        {
+            int goles = 0;
+            List<Resultado> partidos = Contexto.Resultados.Include(r => r.Partido).ToList();
+            foreach (Resultado p in partidos)
+            {
+                if (p.Partido.IdEquipoUno == obj.Id)
+                {
+                    goles += p.CantidadGolesEquipoDos;
+                }
+                if (p.Partido.IdEquipoDos == obj.Id)
+                {
+                    goles += p.CantidadGolesEquipoUno;
                 }
             }
             return goles;

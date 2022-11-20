@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LogicaNegocio.Dominio;
+using DTOs;
+
 using LogicaNegocio.InterfacesRepositorios;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,29 @@ namespace WebAPI.Controllers
         public IActionResult Get()
         {
             return Ok(RepoSelecciones.FindAll());
+        }
+
+        // GET: api/<SeleccionesController>
+        [HttpGet("dto/grupo/{grupo}")]
+        public IActionResult Get(string grupo)
+        {
+            try
+            {
+                if (grupo == null) return BadRequest();
+                IEnumerable<Seleccion> selecciones = RepoSelecciones.FindByGroup(grupo);
+
+                var dtos = selecciones.Select(s =>
+                                            new DTOSeleccion(s.Id, s.Nombre,
+                                            RepoSelecciones.Puntaje(s),
+                                            RepoSelecciones.Goles(s),
+                                            RepoSelecciones.GolesEnContra(s)));
+                var dtosSorted = dtos.OrderByDescending(s => s.Puntaje);
+                return Ok(dtosSorted);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET api/<SeleccionesController>/5

@@ -14,4 +14,3 @@ namespace LogicaNegocio.InterfacesRepositorios
     }
 
 }
-//hacer validacion(dominio y las clases que tienen), hacer metodos, hacer casos de uso

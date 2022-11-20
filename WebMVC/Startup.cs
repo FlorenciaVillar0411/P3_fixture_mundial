@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +14,6 @@ using LogicaAplicacion.InterfacesCasosUso;
 using LogicaAplicacion.CasosUso;
 //using LogicaAccesoDatos.Memoria;
 using LogicaAccesoDatos.BaseDatos;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebMVC
 {
@@ -33,8 +33,15 @@ namespace WebMVC
             services.AddScoped<IAltaPais, AltaPais>();
             services.AddScoped<IListadoPaises, ListadoPaises>();
             services.AddScoped<IRepositorioPaises, RepositorioPaises>();
+            services.AddScoped<IListadoRegiones, ListadoRegiones>();
+
+            services.AddScoped<IAltaRegion, AltaRegion>();
+            services.AddScoped<IRepositorioRegiones, RepositorioRegiones>();
             string strConnection = Configuration.GetConnectionString("MiConexion");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
+            services.AddScoped<IBajaPais, BajaPais>();
+            services.AddScoped<IModificarPais, ModificarPais>();
+            services.AddScoped<IBuscarPais, BuscarPais>();
 
         }
 

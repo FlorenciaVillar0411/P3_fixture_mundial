@@ -7,6 +7,10 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioSelecciones: IRepositorio<Seleccion>
     {
-        Boolean ValidarEliminacion();
+        void ValidarEliminacion(Seleccion seleccion);
+        public int Goles(Seleccion seleccion);
+        public IEnumerable<Tarjeta> VerTarjetas(int id);
+        public int Puntaje(Seleccion obj);
+
     }
 }

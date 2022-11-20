@@ -4,6 +4,9 @@ using System.Text;
 using LogicaNegocio.InterfacesRepositorios;
 using LogicaNegocio.Dominio;
 using System.Linq;
+using Excepciones;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LogicaAccesoDatos.BaseDatos
 {
@@ -24,11 +27,28 @@ namespace LogicaAccesoDatos.BaseDatos
                 Contexto.Paises.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch
+            catch(PaisException ex)
             {
-                throw new NotImplementedException();
+                throw new PaisException(ex.Message);
             }
-            
+            catch (Exception ex)
+            {
+                throw new PaisException(ex.Message);
+            }
+        }
+
+        private void ValidarPaisEnSeleccion(Pais pais)
+        {
+            List<Seleccion> selecciones = Contexto.Selecciones.Include(s => s.Pais).ToList();
+            foreach (Seleccion s in selecciones)
+            {
+                if(s.Pais == pais)
+                {
+                    throw new PaisException("Pais tiene seleccion");
+                }
+            }
+             
+
         }
 
         public IEnumerable<Pais> FindAll()
@@ -39,27 +59,62 @@ namespace LogicaAccesoDatos.BaseDatos
 
         public Pais FindById(int id)
         {
-            throw new NotImplementedException();
+            if (id == 0) throw new PaisException("El id del pais no puede ser 0");
+            return Contexto.Paises.Find(id);
         }
 
         public Pais FindPaisByCodigo(string codigo)
         {
-            throw new NotImplementedException();
+
+            List<Pais> paises = Contexto.Paises.ToList();
+            foreach (Pais p in paises)
+            {
+                if (p.CodigoISOAlfa3 == codigo)
+                {
+                    return p;
+                }
+            }
+            throw new PaisException("No se enconuentra pais por codigo");
         }
 
-        public IEnumerable<Pais> GetPaisesByRegion(Region region)
+        public IEnumerable<Pais> GetPaisesByRegion(int region)
         {
-            throw new NotImplementedException();
+            return Contexto.Paises.Where(x => x.Region.Id == region);
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Pais aBorrar = Contexto.Paises.Find(id);
+                if (aBorrar == null) throw new PaisException("No existe el pais a borrar");
+                ValidarPaisEnSeleccion(aBorrar);
+                Contexto.Paises.Remove(aBorrar);
+                Contexto.SaveChanges();
+                
+            }
+            catch (PaisException ex)
+            {
+                throw new PaisException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new PaisException(ex.Message);
+            }
         }
 
-        public void Update(Pais obj)
+        public void Update(Pais modificado)
         {
-            throw new NotImplementedException();
+            try
+            {
+                modificado.Validar();
+                Contexto.Update(modificado);
+                Contexto.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("No se puede editar el Pais", e);
+            }
         }
 
         public bool ValidarEliminacion()

@@ -11,12 +11,15 @@ namespace LogicaAccesoDatos.Memoria
     {
         public static List<Pais> paises { get; set; } = new List<Pais>();
         public static int UltimoId { get; set; }
+
         public void Add(Pais nuevo)
         {
             nuevo.Validar();
             nuevo.Id = ++UltimoId;
             paises.Add(nuevo);
         }
+
+ 
 
         public IEnumerable<Pais> FindAll()
         {
@@ -25,28 +28,35 @@ namespace LogicaAccesoDatos.Memoria
 
         public Pais FindById(int id)
         {
-            throw new NotImplementedException();
+            return paises.Find(x => x.Id == id);
         }
 
         public Pais FindPaisByCodigo(string codigo)
         {
-            throw new NotImplementedException();
+            return paises.Find(x => x.CodigoISOAlfa3 == codigo);
 
         }
 
         public IEnumerable<Pais> GetPaisesByRegion(Region region)
+        {
+            return paises.FindAll(x => x.Region == region);
+        }
+
+        public IEnumerable<Pais> GetPaisesByRegion(int region)
         {
             throw new NotImplementedException();
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            Pais aBorrar = paises.Find(x => x.Id == id);
+            paises = paises.FindAll(x => x != aBorrar);
         }
 
         public void Update(Pais obj)
         {
-            throw new NotImplementedException();
+            int aModificar = paises.FindIndex(x => x.Id == obj.Id);
+            paises[aModificar] = obj;
         }
 
         public bool ValidarEliminacion()

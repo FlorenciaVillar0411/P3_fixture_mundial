@@ -2,67 +2,84 @@
 using System.Collections.Generic;
 using System.Text;
 using LogicaNegocio.InterfacesDominio;
+using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel.DataAnnotations;
+using Excepciones;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LogicaNegocio.Dominio
 {
-    public class Pais : IValidacion
+    [Table("Paises")]
+    public class Pais : IValidacion, IComparable<Pais>
     {
         public int Id { get; set; }
+        [MinLength(1), MaxLength(25), Required(ErrorMessage ="Nombre es obligatorio")]
         public string Nombre { get; set; }
+        [Display(Name ="Codigo ISO Alfa 3"), Required(ErrorMessage ="Codigo es obligatorio")]
         public string CodigoISOAlfa3 { get; set; }
+        [Required(ErrorMessage = "Pbi es obligatorio")]
         public double Pbi { get; set; }
         public int Poblacion { get; set; }
-
         public string Imagen { get; set; }
+        [Required]
         public Region Region { get; set; }
+        [ForeignKey("Region")]
+        public int RegionId { get; set; }
+
 
         public void Validar()
         {
+            ValidarCodigo();
             ValidarNombre();
-            ValidarCodigo(CodigoISOAlfa3, Nombre);
-            ValidarQueContengaLetras(Nombre);
+            ValidarNumerosPositivo();
+            ValidarImagen();
         }
-        public void ValidarNombre()
+
+        private void ValidarImagen()
         {
-            if (string.IsNullOrEmpty(Nombre) && !ValidarQueContengaLetras(Nombre))  //comprobar que funcione metodo ValidarQueContengaLetras
+            if (!Imagen.Contains(CodigoISOAlfa3))
             {
-                //falta ver lo de los espacios enbebido
-                //throw new PaisException("el Pais debe tener un nombre valido")
+                throw new PaisException("Imagen debe llamarse como el codigoISO");
             }
-
         }
 
-        public void ValidarCodigo(string CodigoISOAlfa3, string Nombre)
+        private void ValidarNumerosPositivo()
+        {
+            if (Pbi<= 0 || Poblacion <=0)
+            {
+                throw new PaisException("PBI y poblacion deben ser numeros positivos");
+            }
+        }
+
+        public void ValidarCodigo()
         {
             char primeraLetra = Nombre[0];
             if (CodigoISOAlfa3.Length < 3 && CodigoISOAlfa3.Length > 3 && !CodigoISOAlfa3.StartsWith(primeraLetra))
+
             {
-                //throw PaisException("El codigo no es valido")
+                throw new PaisException("El codigo no es valido");
             }
         }
-        public bool ValidarQueContengaLetras(string Nombre)
+        public void ValidarNombre()
         {
-            for (int i = 0; i < Nombre.Length; i++)
+            if (Nombre == "")
             {
-                //A=65 Z=90 and a=97 z=122
-                if ((int)Nombre[i] < 65 || ((int)Nombre[i] > 90
-                    && (int)Nombre[i] < 97) || (int)Nombre[i] > 122)
-                    return false;
+                throw new PaisException("Nombre vacio");
             }
-            return true;
-        }
-        public bool ValidarQueContengaLetra(string Nombre) //fijarse cual si la funcion anterior o esta elegimos usar
-        {
 
             for (int i = 0; i < Nombre.Length; i++)
             {
                 char caracter = Nombre[i];
                 if (Char.IsNumber(caracter))
                 {
-                   return false;
+                    throw new PaisException("Nombre no valido");
                 }
             }
-            return true;
+        }
+
+        public int CompareTo([AllowNull] Pais other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

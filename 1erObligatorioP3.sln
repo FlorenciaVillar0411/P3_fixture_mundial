@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicaAccesoDatos", "Logica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Excepciones", "Excepciones\Excepciones.csproj", "{C3E655A4-B94F-4DB3-AF7B-F609AD6288C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{CDE1CC8B-B6E2-4277-8507-6A6431ED2DB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{CDE1CC8B-B6E2-4277-8507-6A6431ED2DB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{4651C904-6A41-474C-92A2-E5A773A3BBCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{CDE1CC8B-B6E2-4277-8507-6A6431ED2DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDE1CC8B-B6E2-4277-8507-6A6431ED2DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDE1CC8B-B6E2-4277-8507-6A6431ED2DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4651C904-6A41-474C-92A2-E5A773A3BBCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4651C904-6A41-474C-92A2-E5A773A3BBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4651C904-6A41-474C-92A2-E5A773A3BBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4651C904-6A41-474C-92A2-E5A773A3BBCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

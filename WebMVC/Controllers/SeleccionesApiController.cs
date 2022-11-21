@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMVC.Models;
+using DTOs;
 
 namespace WebMVC.Controllers
 {
@@ -18,11 +20,13 @@ namespace WebMVC.Controllers
 
         public string UrlApiSelecciones { get; set; }
         public IListadoPaises CUListadoPaises { get; set; }
+        public IListadoGrupos CUListadoGrupos { get; set; }
 
-        public SeleccionesApiController(IConfiguration conf, IListadoPaises cuListadoPaises)
+        public SeleccionesApiController(IConfiguration conf, IListadoPaises cuListadoPaises, IListadoGrupos cuListadoGrupos)
         {
             UrlApiSelecciones = conf.GetValue<string>("UrlApiSelecciones");
             CUListadoPaises = cuListadoPaises;
+            CUListadoGrupos = cuListadoGrupos;
         }
 
         // GET: SeleccionesApiController
@@ -129,6 +133,47 @@ namespace WebMVC.Controllers
             catch
             {
                 return View();
+            }
+        }
+        // GET: Paises/BuscarPorGrupo
+        public ActionResult PuntajePorGrupo(string grupo)
+        {
+            GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
+            vm.Grupos = CUListadoGrupos.ObtenerListado();
+            vm.Selecciones = new List<DTOSeleccion>();
+            return View(vm);
+        }
+
+        // POST: Paises/Buscar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PuntajePorGrupo(string nomGrupo, GrupoSeleccionViewModel vm)
+        {
+                vm.Grupos = CUListadoGrupos.ObtenerListado();
+                vm.Selecciones = new List<DTOSeleccion>();
+            try
+            {
+                HttpClient cli = new HttpClient();
+                Task<HttpResponseMessage> t1 = cli.GetAsync(UrlApiSelecciones + "/dto/grupo/" + vm.NombreGrupo);
+                HttpResponseMessage res = t1.Result;
+                string txt = ObtenerBody(res);
+                if (res.IsSuccessStatusCode)
+                {
+                    List<DTOSeleccion> selecciones = JsonConvert.DeserializeObject<List<DTOSeleccion>>(txt);
+                    vm.Selecciones = selecciones;
+                    return View(vm);
+
+                }
+                else
+                {
+                    ViewBag.Error = "No se obtienen selecciones. Error: " + res.ReasonPhrase + txt;
+                    return View(vm);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = "Ups! " + e.Message;
+                return View(vm);
             }
         }
     }

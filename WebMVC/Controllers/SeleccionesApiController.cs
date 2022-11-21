@@ -283,7 +283,7 @@ namespace WebMVC.Controllers
                 {
 
                     List<ViewModelSeleccionDTO> vmautores = JsonConvert.DeserializeObject<List<ViewModelSeleccionDTO>>(txt);
-                    return View(vmautores);
+                    return View(vmseleccion);
                 }
                 else
                 {

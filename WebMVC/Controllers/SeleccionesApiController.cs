@@ -174,24 +174,47 @@ namespace WebMVC.Controllers
         // GET: SeleccionesApiController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                Seleccion s = BuscarPorId(id);
+                if (s == null)
+                {
+                    ViewBag.Error = "No existe la seleccion a borrar";
+                }
+                return View(a);
+            }
+            catch (Exception ex)
+            { 
+                ViewBag.Error = "Ups! Ocurrión un error " + ex.Message;
+                return View();
+            }
         }
 
         // POST: SeleccionesApiController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Seleccion s)
         {
-            try
+            HttpClient cliente = new HttpClient();
+
+            Task<HttpResponseMessage> tarea1 = cliente.DeleteAsync(UrlApiSelecciones + "/" + id);
+            tarea1.Wait();
+
+            HttpResponseMessage respuesta = tarea1.Result;
+
+            HttpContent contenido = respuesta.Content;
+
+            if (respuesta.IsSuccessStatusCode) //status code de la serie 200
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            catch
+            else
             {
+                ViewBag.Error = "No se puede hacer la eliminación. Satus code: " + respuesta.ReasonPhrase +
+                                "Descripción: " + ObtenerBody(respuesta);
                 return View();
             }
         }
-
         private Seleccion BuscarPorId(int id)
         {
             Seleccion s = null;
@@ -242,9 +265,41 @@ namespace WebMVC.Controllers
 
             return g;
         }
+        [HttpGet]
+        public ActionResult SeleccionsDTO()
+        {
+            try
+            {
+                HttpClient cliente = new HttpClient();
 
-    // GET: Paises/BuscarPorGrupo
-    public ActionResult PuntajePorGrupo(string grupo)
+                var tarea1 = cliente.GetAsync(UrlApiSelecciones + "/dto");
+                tarea1.Wait();
+
+                HttpResponseMessage respuesta = tarea1.Result;
+
+                string txt = ObtenerBody(respuesta); ;
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+
+                    List<ViewModelSeleccionDTO> vmautores = JsonConvert.DeserializeObject<List<ViewModelSeleccionDTO>>(txt);
+                    return View(vmautores);
+                }
+                else
+                {
+                    ViewBag.Error = "No se pudo obtener la información: " + respuesta.ReasonPhrase + " " + txt;
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error("Ocurrió un error: " + ex.Message);
+            }
+
+            return View(new List<ViewModelSeleccionDTO>());
+        }
+
+        // GET: Paises/BuscarPorGrupo
+        public ActionResult PuntajePorGrupo(string grupo)
             {
                 GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
                 vm.Grupos = CUListadoGrupos.ObtenerListado();

@@ -30,15 +30,15 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController
-        public ActionResult Index()
+        public ActionResult Index() //queremos el listado
         {
             try
             {
                 HttpClient cli = new HttpClient();
-                Task<HttpResponseMessage> t1 = cli.GetAsync(UrlApiSelecciones);
-                HttpResponseMessage res = t1.Result;
+                Task<HttpResponseMessage> tarea1 = cli.GetAsync(UrlApiSelecciones);
+                HttpResponseMessage res = tarea1.Result;
                 string txt = ObtenerBody(res);
-                if (res.IsSuccessStatusCode)
+                if (res.IsSuccessStatusCode)//de la serie 200
                 {
                     List<Seleccion> selecciones = JsonConvert.DeserializeObject<List<Seleccion>>(txt);
                     return View(selecciones);
@@ -46,7 +46,7 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "No se obtienen selecciones. Error: " + res.ReasonPhrase + txt;
+                    ViewBag.Error = "No se obtienen selecciones. Error: " + res.ReasonPhrase + txt; //badrequest, o notfound o internal server error
                     return View(new List<Seleccion>());
                 }
             }
@@ -61,16 +61,19 @@ namespace WebMVC.Controllers
         {
             HttpContent contenido = respuesta.Content;
 
-            Task<string> t2 = contenido.ReadAsStringAsync();
-            t2.Wait();
-            return t2.Result;
+            Task<string> tarea2 = contenido.ReadAsStringAsync();
+            tarea2.Wait();
+            return tarea2.Result;
         }
 
         // GET: SeleccionesApiController/Details/5
         public ActionResult Details(int id)
         {
-           
-            return View();
+            try
+            {
+                Seleccion seleccion = BuscarPorId(id);
+                return View(selecciones);
+            }
         }
 
         // GET: SeleccionesApiController/Create
@@ -135,7 +138,33 @@ namespace WebMVC.Controllers
                 return View();
             }
         }
-        // GET: Paises/BuscarPorGrupo
+
+        private Seleccion BuscarPorId(int id)
+        {
+            Seleccion s = null;
+
+            HttpClient cliente = new HttpClient();
+
+            Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlApiSelecciones + "/" + id);
+            tarea1.Wait();
+
+            HttpResponseMessage respuesta = tarea1.Result;
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                HttpContent contenido = respuesta.Content;
+
+                Task<string> tarea2 = contenido.ReadAsStringAsync();
+                tarea2.Wait();
+
+                string json = tarea2.Result;
+
+                s = JsonConvert.DeserializeObject<Seleccion>(json);
+            }
+
+            return a;
+
+
         public ActionResult PuntajePorGrupo(string grupo)
         {
             GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
@@ -177,4 +206,5 @@ namespace WebMVC.Controllers
             }
         }
     }
+
 }

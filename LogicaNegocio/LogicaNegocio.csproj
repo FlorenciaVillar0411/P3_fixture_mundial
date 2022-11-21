@@ -9,6 +9,7 @@
     <None Remove="InterfacesRepositorios\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DTOs\DTOs.csproj" />
     <ProjectReference Include="..\Excepciones\Excepciones.csproj" />
   </ItemGroup>
 </Project>

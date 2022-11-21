@@ -20,10 +20,45 @@ namespace WebMVC.Controllers
         public ActionResult Login(UsuarioViewModel vm)
         {
             //PENDIENTE VALIDAR QUE EL USUARIO EXISTE Y TIENE ESE ROL
-            HttpContext.Session.SetString("rol", vm.Rol);
 
-            ViewBag.Mensaje = "Bienvenido " + vm.Usuario;
-            return View();
+            Usuario login = validarDatosLogin(vm);
+            string rol;
+
+            if(login != null)
+            {
+                if(login is Admin)
+                {
+                    rol = "admin";
+                }
+                else if (login = Apostador)
+                {
+                    rol = "apostador";
+                }
+                else if (login = Invitado)
+                {
+                    rol = "invitado";
+                }
+                else
+                {
+                    rol = "usuario sin identificar";
+                }
+                HttpContext.Session.SetString("rol", vm.Rol);
+
+                ViewBag.Mensaje = "Bienvenido " + vm.Usuario;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.msg = "Datos no validos";
+                return View();
+            }
         }
+        public IActionResult Logout() //si se desea cerrar sesion, se hace clear del rol y se redirige a index
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

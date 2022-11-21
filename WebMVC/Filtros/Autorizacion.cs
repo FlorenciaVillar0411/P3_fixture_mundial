@@ -24,8 +24,10 @@ namespace WebMVC.Filtros
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            //me traigo el rol del usuario
             string rolUsuario = context.HttpContext.Session.GetString("rol");
 
+            //si no hay rol o no esta en la lista de roles
             if (rolUsuario == null || !Roles.Any(rol => rol == rolUsuario)) // !Roles.Contains(rolUsuario)
             {
                 context.Result = new RedirectToActionResult("login", "usuarios", null);

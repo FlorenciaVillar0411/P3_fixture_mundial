@@ -19,10 +19,12 @@ namespace WebAPI.Controllers
     {
 
         public IRepositorioPartidoFixture RepoPartidos { get; set; }
+        public IRepositorioSelecciones RepositorioSelecciones { get; set; }
 
-        public PartidosFixtureController(IRepositorioPartidoFixture repoPartidos)
+        public PartidosFixtureController(IRepositorioPartidoFixture repoPartidos, IRepositorioSelecciones repositorioSelecciones)
         {
             RepoPartidos = repoPartidos;
+            RepositorioSelecciones = repositorioSelecciones;
         }
         // GET: api/<PartidosFixtureController>
         [HttpGet]
@@ -146,6 +148,93 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        // GET: api/<PartidosFixtureController>
+        [HttpGet("seleccion/{seleccion}")]
+        public IActionResult GetBySeleccion(string seleccion)
+        {
+            try
+            {
+                if (seleccion == null) return BadRequest();
+                IEnumerable<PartidoFixture> partidos = RepoPartidos.FindAll();
+
+                var ret = partidos.Where(p => {
+                    Seleccion s1 = RepositorioSelecciones.FindById(p.IdEquipoDos);
+                    Seleccion s2 = RepositorioSelecciones.FindById(p.IdEquipoUno);
+                    if(s1.Nombre == seleccion || s2.Nombre == seleccion || s1.Pais.Nombre == seleccion || s2.Pais.Nombre == seleccion)
+                    {
+                        return true;
+                    } else
+                    {
+                        return false;
+                    }
+
+                    });
+                return Ok(ret);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+
+        // GET: api/<PartidosFixtureController>
+        [HttpGet("codigoPais/{codigo}")]
+        public IActionResult GetByCodigo(string codigo)
+        {
+            try
+            {
+                if (codigo == null) return BadRequest();
+                IEnumerable<PartidoFixture> partidos = RepoPartidos.FindAll();
+
+                var ret = partidos.Where(p => {
+                    Seleccion s1 = RepositorioSelecciones.FindById(p.IdEquipoDos);
+                    Seleccion s2 = RepositorioSelecciones.FindById(p.IdEquipoUno);
+                    if (s1.Pais.CodigoISOAlfa3 == codigo || s2.Pais.CodigoISOAlfa3 == codigo)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                });
+                return Ok(ret);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        // GET: api/<PartidosFixtureController>
+        [HttpGet]
+        [Route("desde/{desde}/hasta/{hasta}")]
+        public IActionResult GetByFecha(string desde, string hasta)
+        {
+            if (desde == null || hasta == null) return BadRequest();
+
+            DateTime fdesde = new DateTime();
+            bool ok1 = DateTime.TryParse(desde, out fdesde);
+            DateTime fhasta = new DateTime();
+            bool ok2 = DateTime.TryParse(hasta, out fhasta);
+            if (!ok1 || !ok2) return BadRequest("fecha no valida");
+
+            try
+            {
+                IEnumerable<PartidoFixture> partidos = RepoPartidos.FindAll();
+
+                var ret = partidos.Where(p => p.Fecha < fhasta && p.Fecha > fdesde);
+                return Ok(ret);
+            }
+            catch
+            {
+                return StatusCode(500);
             }
         }
     }

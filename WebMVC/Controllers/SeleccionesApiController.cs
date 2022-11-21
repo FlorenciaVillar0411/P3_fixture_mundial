@@ -38,7 +38,6 @@ namespace WebMVC.Controllers
                 {
                     List<Seleccion> selecciones = JsonConvert.DeserializeObject<List<Seleccion>>(txt);
                     return View(selecciones);
-
                 }
                 else
                 {
@@ -48,7 +47,7 @@ namespace WebMVC.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Error = "Ups! " + e.Message;
+                ViewBag.Error = "Error! " + e.Message;
                 return View(new List<Seleccion>());
             }
         }
@@ -72,8 +71,7 @@ namespace WebMVC.Controllers
             }
             catch (Exception ex)
             {
-                //Log? 
-                ViewBag.Error = "Ups! Ocurrión un error " + ex.Message;
+                ViewBag.Error = "Ocurrió un error " + ex.Message;
                 return View();
             }
         }
@@ -95,11 +93,11 @@ namespace WebMVC.Controllers
         {
             try
             {
-                vm.seleccion.PaisId = vm.IdPaisSeleccionado;
+                vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
 
                 HttpClient cliente = new HttpClient();
 
-                Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlApiSelecciones, vm.seleccion);
+                Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlApiSelecciones, vm.Seleccion);
                 tarea1.Wait();
 
                 HttpResponseMessage respuesta = tarea1.Result;
@@ -129,7 +127,7 @@ namespace WebMVC.Controllers
         {
             Seleccion seleccion = BuscarPorId(id);
             SeleccionViewModel vm = new SeleccionViewModel();
-            vm.seleccion = seleccion;
+            vm.Seleccion = seleccion;
             vm.IdPaisSeleccionado = seleccion.PaisId;
             vm.IdGrupoSeleccionado = seleccion.IdGrupo;
             vm.Paises = CUListadoPaises.ObtenerListado();
@@ -144,11 +142,11 @@ namespace WebMVC.Controllers
         {
             try
             {
-                vm.seleccion.PaisId = vm.IdPaisSeleccionado;
-                vm.seleccion.IdGrupo = vm.IdGrupoSeleccionado;
+                vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
+                vm.Seleccion.IdGrupo = vm.IdGrupoSeleccionado;
 
                 HttpClient cliente = new HttpClient();
-                Task<HttpResponseMessage> tarea1 = cliente.PutAsJsonAsync(UrlApiSelecciones + "/" + vm.seleccion.Id, vm.seleccion);
+                Task<HttpResponseMessage> tarea1 = cliente.PutAsJsonAsync(UrlApiSelecciones + "/" + vm.Seleccion.Id, vm.Seleccion);
                 tarea1.Wait();
 
                 HttpResponseMessage respuesta = tarea1.Result;
@@ -185,7 +183,7 @@ namespace WebMVC.Controllers
             }
             catch (Exception ex)
             { 
-                ViewBag.Error = "Ups! Ocurrión un error " + ex.Message;
+                ViewBag.Error = "Ocurrió un error " + ex.Message;
                 return View();
             }
         }
@@ -209,7 +207,7 @@ namespace WebMVC.Controllers
             else
             {
                 ViewBag.Error = "No se puede hacer la eliminación. Satus code: " + respuesta.ReasonPhrase +
-                                "Descripción: " + ObtenerBody(respuesta);
+                                 ObtenerBody(respuesta);
                 return View();
             }
         }
@@ -241,3 +239,4 @@ namespace WebMVC.Controllers
         
         }
     }
+//faltan los ultimos dos puntos de la parte 1  ( aunque creo que el details ya dá todo eso)

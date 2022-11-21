@@ -95,10 +95,10 @@ namespace WebMVC.Controllers
         {
             try
             {
-                vm.Paises.Id = vm.IdPaisSeleccionado;
+                vm.seleccion.PaisId = vm.IdPaisSeleccionado;
+
                 HttpClient cliente = new HttpClient();
 
-                cliente.DefaultRequestHeaders.Add("token", "123123123");
                 Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlApiSelecciones, vm.seleccion);
                 tarea1.Wait();
 
@@ -128,11 +128,10 @@ namespace WebMVC.Controllers
         public ActionResult Edit(int id)
         {
             Seleccion seleccion = BuscarPorId(id);
-            Grupo grupo = BuscarPorIdGrupo(id);
             SeleccionViewModel vm = new SeleccionViewModel();
             vm.seleccion = seleccion;
             vm.IdPaisSeleccionado = seleccion.PaisId;
-            vm.IdGrupoSeleccionado = grupo.Id;
+            vm.IdGrupoSeleccionado = seleccion.IdGrupo;
             vm.Paises = CUListadoPaises.ObtenerListado();
             vm.Grupos = CUListadoGrupos.ObtenerListado();
             return View(vm);
@@ -145,8 +144,9 @@ namespace WebMVC.Controllers
         {
             try
             {
-                vm.Paises.Id = vm.IdPaisSeleccionado;
-                vm.Grupos.Id = vm.IdGrupoSeleccionado;
+                vm.seleccion.PaisId = vm.IdPaisSeleccionado;
+                vm.seleccion.IdGrupo = vm.IdGrupoSeleccionado;
+
                 HttpClient cliente = new HttpClient();
                 Task<HttpResponseMessage> tarea1 = cliente.PutAsJsonAsync(UrlApiSelecciones + "/" + vm.seleccion.Id, vm.seleccion);
                 tarea1.Wait();
@@ -181,7 +181,7 @@ namespace WebMVC.Controllers
                 {
                     ViewBag.Error = "No existe la seleccion a borrar";
                 }
-                return View(a);
+                return View(s);
             }
             catch (Exception ex)
             { 
@@ -201,8 +201,6 @@ namespace WebMVC.Controllers
             tarea1.Wait();
 
             HttpResponseMessage respuesta = tarea1.Result;
-
-            HttpContent contenido = respuesta.Content;
 
             if (respuesta.IsSuccessStatusCode) //status code de la serie 200
             {
@@ -240,104 +238,6 @@ namespace WebMVC.Controllers
 
             return s;
         }
-        private Grupo BuscarPorIdGrupo(int id)
-        {
-            Grupo g = null;
-
-            HttpClient cliente = new HttpClient();
-
-            Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlApiSelecciones + "/" + id);
-            tarea1.Wait();
-
-            HttpResponseMessage respuesta = tarea1.Result;
-
-            if (respuesta.IsSuccessStatusCode)
-            {
-                HttpContent contenido = respuesta.Content;
-
-                Task<string> tarea2 = contenido.ReadAsStringAsync();
-                tarea2.Wait();
-
-                string json = tarea2.Result;
-
-                s = JsonConvert.DeserializeObject<Grupo>(json);
-            }
-
-            return g;
-        }
-        [HttpGet]
-        public ActionResult SeleccionsDTO()
-        {
-            try
-            {
-                HttpClient cliente = new HttpClient();
-
-                var tarea1 = cliente.GetAsync(UrlApiSelecciones + "/dto");
-                tarea1.Wait();
-
-                HttpResponseMessage respuesta = tarea1.Result;
-
-                string txt = ObtenerBody(respuesta); ;
-
-                if (respuesta.IsSuccessStatusCode)
-                {
-
-                    List<ViewModelSeleccionDTO> vmautores = JsonConvert.DeserializeObject<List<ViewModelSeleccionDTO>>(txt);
-                    return View(vmseleccion);
-                }
-                else
-                {
-                    ViewBag.Error = "No se pudo obtener la información: " + respuesta.ReasonPhrase + " " + txt;
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error("Ocurrió un error: " + ex.Message);
-            }
-
-            return View(new List<ViewModelSeleccionDTO>());
-        }
-
-        // GET: Paises/BuscarPorGrupo
-        public ActionResult PuntajePorGrupo(string grupo)
-            {
-                GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
-                vm.Grupos = CUListadoGrupos.ObtenerListado();
-                vm.Selecciones = new List<DTOSeleccion>();
-                return View(vm);
-            }
-
-            // POST: Paises/Buscar
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public ActionResult PuntajePorGrupo(string nomGrupo, GrupoSeleccionViewModel vm)
-            {
-                    vm.Grupos = CUListadoGrupos.ObtenerListado();
-                    vm.Selecciones = new List<DTOSeleccion>();
-                try
-                {
-                    HttpClient cli = new HttpClient();
-                    Task<HttpResponseMessage> t1 = cli.GetAsync(UrlApiSelecciones + "/dto/grupo/" + vm.NombreGrupo);
-                    HttpResponseMessage res = t1.Result;
-                    string txt = ObtenerBody(res);
-                    if (res.IsSuccessStatusCode)
-                    {
-                        List<DTOSeleccion> selecciones = JsonConvert.DeserializeObject<List<DTOSeleccion>>(txt);
-                        vm.Selecciones = selecciones;
-                        return View(vm);
-
-                    }
-                    else
-                    {
-                        ViewBag.Error = "No se obtienen selecciones. Error: " + res.ReasonPhrase + txt;
-                        return View(vm);
-                    }
-                }
-                catch (Exception e)
-                {
-                    ViewBag.Error = "Ups! " + e.Message;
-                    return View(vm);
-                }
-            }
+        
         }
     }

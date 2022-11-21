@@ -36,16 +36,14 @@ namespace WebMVC
             services.AddScoped<IListadoRegiones, ListadoRegiones>();
 
             services.AddScoped<IAltaRegion, AltaRegion>();
-            services.AddScoped<IRepositorioRegiones, RepositorioRegiones>(); 
-            services.AddScoped<IRepositorioGrupo, RepositorioGrupo>();
-
+            services.AddScoped<IRepositorioRegiones, RepositorioRegiones>();
             string strConnection = Configuration.GetConnectionString("MiConexion");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));
             services.AddScoped<IBajaPais, BajaPais>();
             services.AddScoped<IModificarPais, ModificarPais>();
             services.AddScoped<IBuscarPais, BuscarPais>();
-            services.AddScoped<IListadoGrupos, ListadoGrupos>();
 
+            services.AddSession();
 
         }
 
@@ -67,7 +65,10 @@ namespace WebMVC
 
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

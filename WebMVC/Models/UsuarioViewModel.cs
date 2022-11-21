@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace WebMVC.Models
 {
-    public class UsuarioViewModelcs
+    public class UsuarioViewModel
     {
+        public string Rol { get; internal set; }
+        public string Usuario { get; internal set; }
+
         public class ViewModelUsuario
         {
             public string Usuario { get; set; }

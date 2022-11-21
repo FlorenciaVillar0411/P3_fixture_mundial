@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMVC.Models;
 
 namespace WebMVC.Controllers
 {
@@ -16,7 +17,7 @@ namespace WebMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(ViewModelUsuario vm)
+        public ActionResult Login(UsuarioViewModel vm)
         {
             //PENDIENTE VALIDAR QUE EL USUARIO EXISTE Y TIENE ESE ROL
             HttpContext.Session.SetString("rol", vm.Rol);

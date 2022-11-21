@@ -1,0 +1,85 @@
+﻿@model WebMVC.Models.BusquedaPartidoViewModel
+
+@{ ViewData["Title"] = "PorGrupo"; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PorGrupo</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="PorGrupo">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label name="NombreGrupo" asp-for="NombreGrupo">Grupo:</label>
+                    <input type="text" id="Grupos" name="NombreGrupo" asp-for="NombreGrupo">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Buscar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        @ViewBag.Error
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id partido
+                </th>
+                <th>
+                    Id seleccion 1
+                </th>
+                <th>
+                    Id seleccion 2
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Hora
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Partidos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEquipoUno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEquipoDos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

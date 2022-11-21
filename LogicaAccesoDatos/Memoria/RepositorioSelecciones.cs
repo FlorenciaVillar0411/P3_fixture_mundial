@@ -23,12 +23,22 @@ namespace LogicaAccesoDatos.Memoria
             return Selecciones;
         }
 
+        public IEnumerable<Seleccion> FindByGroup(string nomGrupo)
+        {
+            throw new NotImplementedException();
+        }
+
         public Seleccion FindById(int id)
         {
             return Selecciones.Find(x => x.Id == id);
         }
 
         public int Goles(Seleccion seleccion)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GolesEnContra(Seleccion seleccion)
         {
             throw new NotImplementedException();
         }

@@ -43,7 +43,7 @@ namespace WebMVC.Controllers
                 else
                 {
                     ViewBag.Error = "No se obtienen selecciones. Error: " + res.ReasonPhrase + txt;
-                    return View(new List<Seleccion>());
+                    return View(new List<Seleccion>()); // no va amostrar nada en vez de null 
                 }
             }
             catch (Exception e)

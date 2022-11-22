@@ -1,0 +1,78 @@
+﻿@model WebMVC.Models.SeleccionViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<dt>
+    <h4>SeleccionViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <select name="paisNombre" id="Paises">
+                @foreach (var pais in Model.Paises)
+                {
+                    <option value="@pais.Nombre">@pais.Nombre</option>
+                }
+            </select>
+        </dt>
+        <dd class="col-sm-10">
+            <select name="paisNombre" id="Paises">
+                @foreach (var pais in Model.Paises)
+                {
+                    <option value="@pais.Nombre">@pais.Nombre</option>
+                }
+            </select>
+        </dd>
+        <dt class="col-sm-2">
+            <select name="paisNombre" id="Paises">
+                @foreach (var grupos in Model.Grupos)
+                {
+                    <option value="@grupos.Nombre">@grupos.Nombre</option>
+                }
+            </select>
+        </dt>
+        <dd class="col-sm-10">
+            <select name="paisNombre" id="Paises">
+                @foreach (var pais in Model.Paises)
+                {
+                    <option value="@pais.Nombre">@pais.Nombre</option>
+                }
+            </select>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreSeleccion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NombreSeleccion)
+        </dd>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdGrupo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdGrupo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdPaisSeleccionado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdPaisSeleccionado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdGrupoSeleccionado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdGrupoSeleccionado)
+        </dd>
+    </dl>
+    </div>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+
+    @*ver lo de poner info de codigo, nombre y bandera*@

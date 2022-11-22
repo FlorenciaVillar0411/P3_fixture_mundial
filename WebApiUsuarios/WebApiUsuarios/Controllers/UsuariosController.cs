@@ -4,84 +4,63 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApiUsuarios.Models;
 
 namespace WebApiUsuarios.Controllers
 {
+    //CON ESTO VAMOS A NECESITAR UNA BASE DE DATOS DIFERENTE
+
     public class UsuariosController : Controller
     {
-        // GET: UsuariosController
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Login()
         {
             return View();
         }
 
-        // GET: UsuariosController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: UsuariosController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UsuariosController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Login(UsuarioViewModel vm)
         {
-            try
+            //EL PROFE PASO UN VIEW MODEL PERO NO SE SI SI NO ES MEJOR PASAR USERNAME Y PASSWORD
+            //NO ESTA BIEN DEL TODO, FALTA TERMINAR DE PENSARLA
+            //NO SE SI HACER CLASE DE CADA TIPO DE USUARIO O NO
+            Usuario login = vm.ValidarDatosLogin(); 
+            string rol;
+            if (login != null)
             {
-                return RedirectToAction(nameof(Index));
+                if (login.rol = Admin) 
+                {
+                    rol = "Admin"
+                }
+                else if (login is Apostador) 
+                {
+                    rol = "Apostador";
+                }
+                else if (login is Visitante)
+                {
+                    rol = "Visitante";
+                }
+                else 
+                {
+                    rol = "Usuario no identificado";
+                }
+                HttpContext.Session.SetInt32("LogueadoId", login.Id);
+                HttpContext.Session.SetString("LogueadoRol", rol);
+
+                ViewBag.msg = "Bienvenido";
+                return RedirectToAction("Index");
             }
-            catch
+            else
             {
+                ViewBag.msg = "Datos no válidos";
                 return View();
             }
         }
-
-        // GET: UsuariosController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Logout() //si se desea cerrar sesion, se hace clear del rol y se redirige a index
         {
-            return View();
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
-
-        // POST: UsuariosController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UsuariosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UsuariosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

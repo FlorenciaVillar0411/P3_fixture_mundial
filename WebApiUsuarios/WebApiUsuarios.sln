@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.32126.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiUsuarios", "WebApiUsuarios\WebApiUsuarios.csproj", "{7F69DD2F-4C51-4CA7-891B-C5761F64CE36}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9381858-1225-4B29-8E52-CAB2862BF0D4} = {C9381858-1225-4B29-8E52-CAB2862BF0D4}
+		{C3F7B75D-AEB9-42EE-806D-9E290DDC01CC} = {C3F7B75D-AEB9-42EE-806D-9E290DDC01CC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicaNegocio", "LogicaNegocio\LogicaNegocio.csproj", "{C9381858-1225-4B29-8E52-CAB2862BF0D4}"
 EndProject

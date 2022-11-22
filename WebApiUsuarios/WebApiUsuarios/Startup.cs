@@ -1,6 +1,6 @@
+using LogicaAccesoDatos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using LogicaNegocio.InterfacesRepositorios;
 
 namespace WebApiUsuarios
 {
@@ -26,6 +28,11 @@ namespace WebApiUsuarios
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+
+
+            string strConnection = Configuration.GetConnectionString("MiConexion");
+            services.AddDbContext<LoginContext>(options => options.UseSqlServer(strConnection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

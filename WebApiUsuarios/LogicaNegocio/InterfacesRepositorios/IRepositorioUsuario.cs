@@ -12,6 +12,6 @@ namespace LogicaNegocio.InterfacesRepositorios
         public List<Rol> Login();
         public void Registro();
         public void Logout();
-
+        Usuario Find(Usuario usuario);
     }
 }

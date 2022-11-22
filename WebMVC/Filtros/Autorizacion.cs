@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebMVC.Filtros
 {
-    public class Autorizacion : Attribute, IAuthorizationFilter();
+    public class Autorizacion : Attribute, IAuthorizationFilter
     {
         
         public string[] Roles { get; set; }

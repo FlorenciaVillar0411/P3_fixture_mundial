@@ -6,6 +6,6 @@ namespace LogicaNegocio.InterfacesDominio
 {
     public interface IValidacion
     {
-        void ValidarDatosLogin();
+        void Validar();
     }
 }

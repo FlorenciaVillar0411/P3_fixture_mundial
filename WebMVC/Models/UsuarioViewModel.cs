@@ -7,14 +7,8 @@ namespace WebMVC.Models
 {
     public class UsuarioViewModel
     {
-        public string Rol { get; internal set; }
-        public string Usuario { get; internal set; }
+        public string Password { get; internal set; }
+        public string Email { get; internal set; }
 
-        public class ViewModelUsuario
-        {
-            public string Usuario { get; set; }
-            public string Clave { get; set; }
-            public string Rol { get; set; }
-        }
     }
 }

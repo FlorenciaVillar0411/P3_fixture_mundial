@@ -2,19 +2,24 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace LogicaNegocio
 {
-    public class Usuario: IValidacion
+    public class Usuario: IValidacion 
     {
         public int Id { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
 
         [MinLength(8)]
         public string Password { get; set; }
 
-        public void ValidarDatosLogin()
+        public Rol Rol { get; set; }
+        [ForeignKey("Rol")]
+        public int RoliId { get; set; }
+        public void Validar()
         {
             ValidarEmail();
             ValidarPassword();

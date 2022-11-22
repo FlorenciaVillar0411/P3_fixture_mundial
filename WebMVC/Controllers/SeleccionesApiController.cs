@@ -1,4 +1,5 @@
-﻿using LogicaAplicacion.InterfacesCasosUso;
+﻿using DTOs;
+using LogicaAplicacion.InterfacesCasosUso;
 using LogicaNegocio.Dominio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -236,7 +237,49 @@ namespace WebMVC.Controllers
 
             return s;
         }
-        
+
+        // GET: Paises/BuscarPorGrupo
+        public ActionResult PuntajePorGrupo(string grupo)
+        {
+            GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
+            vm.Grupos = CUListadoGrupos.ObtenerListado();
+            vm.Selecciones = new List<DTOSeleccion>();
+            return View(vm);
         }
+
+        // POST: Paises/Buscar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PuntajePorGrupo(string nomGrupo, GrupoSeleccionViewModel vm)
+        {
+            vm.Grupos = CUListadoGrupos.ObtenerListado();
+            vm.Selecciones = new List<DTOSeleccion>();
+            try
+            {
+                HttpClient cli = new HttpClient();
+                Task<HttpResponseMessage> t1 = cli.GetAsync(UrlApiSelecciones + "/dto/grupo/" + vm.NombreGrupo);
+                HttpResponseMessage res = t1.Result;
+                string txt = ObtenerBody(res);
+                if (res.IsSuccessStatusCode)
+                {
+                    List<DTOSeleccion> selecciones = JsonConvert.DeserializeObject<List<DTOSeleccion>>(txt);
+                    vm.Selecciones = selecciones;
+                    return View(vm);
+
+                }
+                else
+                {
+                    ViewBag.Error = "No se obtienen selecciones. Error: " + res.ReasonPhrase + txt;
+                    return View(vm);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = "Ups! " + e.Message;
+                return View(vm);
+            }
+        }
+
+    }
     }
 //faltan los ultimos dos puntos de la parte 1  ( aunque creo que el details ya dá todo eso)

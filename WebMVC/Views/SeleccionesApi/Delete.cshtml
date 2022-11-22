@@ -1,4 +1,4 @@
-﻿@model WebMVC.Models.SeleccionViewModel
+﻿@model LogicaNegocio.Dominio.Seleccion
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,29 +11,41 @@
     <h4>SeleccionViewModel</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreSeleccion)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreSeleccion)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdGrupo)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Grupo)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdGrupo)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Grupo.Nombre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdPaisSeleccionado)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pais.Nombre)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdPaisSeleccionado)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pais.Nombre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdGrupoSeleccionado)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Telefono)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdGrupoSeleccionado)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CantidadApostadores)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CantidadApostadores)
         </dd>
     </dl>
     

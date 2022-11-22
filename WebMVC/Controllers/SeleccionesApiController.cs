@@ -83,7 +83,6 @@ namespace WebMVC.Controllers
         {
             SeleccionViewModel vm = new SeleccionViewModel();
             vm.Paises = CUListadoPaises.ObtenerListado();
-            vm.Grupos = CUListadoGrupos.ObtenerListado();
             return View(vm);
         }
 
@@ -97,6 +96,7 @@ namespace WebMVC.Controllers
                 vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
 
                 HttpClient cliente = new HttpClient();
+                cliente.DefaultRequestHeaders.Add("token", "tokennumberblabla");
 
                 Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlApiSelecciones, vm.Seleccion);
                 tarea1.Wait();
@@ -111,7 +111,6 @@ namespace WebMVC.Controllers
                 {
                     ViewBag.Error = "No se pudo dar de alta la seleccion. Error: " + ObtenerBody(respuesta);
                     vm.Paises = CUListadoPaises.ObtenerListado();
-                    vm.Grupos = CUListadoGrupos.ObtenerListado();
                     return View(vm);
                 }
             }
@@ -132,7 +131,6 @@ namespace WebMVC.Controllers
             vm.IdPaisSeleccionado = seleccion.PaisId;
             vm.IdGrupoSeleccionado = seleccion.IdGrupo;
             vm.Paises = CUListadoPaises.ObtenerListado();
-            vm.Grupos = CUListadoGrupos.ObtenerListado();
             return View(vm);
         }
 
@@ -143,8 +141,6 @@ namespace WebMVC.Controllers
         {
             try
             {
-                vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
-                vm.Seleccion.IdGrupo = vm.IdGrupoSeleccionado;
 
                 HttpClient cliente = new HttpClient();
                 Task<HttpResponseMessage> tarea1 = cliente.PutAsJsonAsync(UrlApiSelecciones + "/" + vm.Seleccion.Id, vm.Seleccion);
@@ -160,7 +156,6 @@ namespace WebMVC.Controllers
                 {
                     ViewBag.Error = "No se pudo modificar la seleccion. Error: " + ObtenerBody(respuesta);
                     vm.Paises = CUListadoPaises.ObtenerListado();
-                    vm.Grupos = CUListadoGrupos.ObtenerListado();
                     return View(vm);
                 }
             }
@@ -239,6 +234,29 @@ namespace WebMVC.Controllers
         }
 
         // GET: Paises/BuscarPorGrupo
+        public ActionResult BuscarId(string grupo)
+        {
+            return View(new Seleccion());
+        }
+
+        // POST: Paises/Buscar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BuscarId(int id, Seleccion seleccion)
+        {
+            try
+            {
+                Seleccion s = BuscarPorId(id);
+                return View(s);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = "Ups! " + e.Message;
+                return View(seleccion);
+            }
+        }
+
+        // GET: Paises/BuscarPorGrupo
         public ActionResult PuntajePorGrupo(string grupo)
         {
             GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
@@ -250,7 +268,7 @@ namespace WebMVC.Controllers
         // POST: Paises/Buscar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PuntajePorGrupo(string nomGrupo, GrupoSeleccionViewModel vm)
+        public ActionResult PuntajePorGrupo(GrupoSeleccionViewModel vm)
         {
             vm.Grupos = CUListadoGrupos.ObtenerListado();
             vm.Selecciones = new List<DTOSeleccion>();

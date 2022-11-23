@@ -100,7 +100,7 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Registro no exitoso. Error: " + res.ReasonPhrase + txt;
+                    ViewBag.Error = "Registro no exitoso. Error: " + res.RequestMessage + txt;
                     return View();
                 }
             }

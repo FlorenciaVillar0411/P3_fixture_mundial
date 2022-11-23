@@ -32,6 +32,7 @@ namespace WebAPI
             services.AddScoped<IRepositorioPartidos, RepositorioPartidos>();
             services.AddScoped<IRepositorioPartidoFixture, RepositorioPartidoFixture>();
             services.AddScoped<IRepositorioResultado, RepositorioResultado>();
+            services.AddScoped<IRepositorioPaises, RepositorioPaises>();
 
             string strConnection = Configuration.GetConnectionString("MiConexion");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strConnection));

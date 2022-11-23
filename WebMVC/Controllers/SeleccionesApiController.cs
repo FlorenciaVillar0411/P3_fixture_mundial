@@ -19,13 +19,12 @@ namespace WebMVC.Controllers
     {
 
         public string UrlApiSelecciones { get; set; }
-        public IListadoPaises CUListadoPaises { get; set; }
-        public IListadoGrupos CUListadoGrupos { get; set; }
+        public string UrlApiPaises { get; set; }
 
-        public SeleccionesApiController(IConfiguration conf, IListadoPaises cuListadoPaises)
+        public SeleccionesApiController(IConfiguration conf)
         {
             UrlApiSelecciones = conf.GetValue<string>("UrlApiSelecciones");
-            CUListadoPaises = cuListadoPaises;
+            UrlApiPaises = conf.GetValue<string>("UrlApiPaises");
         }
 
         // GET: SeleccionesApiController
@@ -86,7 +85,7 @@ namespace WebMVC.Controllers
         public ActionResult Create()
         {
             SeleccionViewModel vm = new SeleccionViewModel();
-            vm.Paises = CUListadoPaises.ObtenerListado();
+            vm.Paises = GetPaises();
             return View(vm);
         }
 
@@ -96,7 +95,7 @@ namespace WebMVC.Controllers
         [Autorizacion("Admin")]
         public ActionResult Create(SeleccionViewModel vm)
         {
-            vm.Paises = CUListadoPaises.ObtenerListado();
+            vm.Paises = GetPaises();
             try
             {
                 vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
@@ -116,7 +115,7 @@ namespace WebMVC.Controllers
                 else
                 {
                     ViewBag.Error = "No se pudo dar de alta la seleccion. Error: " + ObtenerBody(respuesta);
-                    vm.Paises = CUListadoPaises.ObtenerListado();
+                    vm.Paises = GetPaises();
                     return View(vm);
                 }
             }
@@ -137,7 +136,7 @@ namespace WebMVC.Controllers
             vm.Seleccion = seleccion;
             vm.IdPaisSeleccionado = seleccion.PaisId;
             vm.IdGrupoSeleccionado = seleccion.IdGrupo;
-            vm.Paises = CUListadoPaises.ObtenerListado();
+            vm.Paises = GetPaises();
             return View(vm);
         }
 
@@ -162,7 +161,7 @@ namespace WebMVC.Controllers
                 else
                 {
                     ViewBag.Error = "No se pudo modificar la seleccion. Error: " + ObtenerBody(respuesta);
-                    vm.Paises = CUListadoPaises.ObtenerListado();
+                    vm.Paises = GetPaises();
                     return View(vm);
                 }
             }
@@ -313,6 +312,33 @@ namespace WebMVC.Controllers
             }
         }
 
+        private IEnumerable<Pais> GetPaises()
+        {
+            IEnumerable<Pais> paises = null;
+
+            HttpClient cliente = new HttpClient();
+
+            Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlApiPaises);
+            tarea1.Wait();
+
+            HttpResponseMessage respuesta = tarea1.Result;
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                HttpContent contenido = respuesta.Content;
+
+                Task<string> tarea2 = contenido.ReadAsStringAsync();
+                tarea2.Wait();
+
+                string json = tarea2.Result;
+
+                paises = JsonConvert.DeserializeObject<IEnumerable<Pais>>(json);
+            }
+
+            return paises;
+        }
+
+
     }
-    }
+}
 //faltan los ultimos dos puntos de la parte 1  ( aunque creo que el details ya dá todo eso)

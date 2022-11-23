@@ -139,7 +139,7 @@ namespace WebMVC.Controllers
             return View(vm);
         }
 
-        // POST: /BuscarPorGrupo
+        // POST: PartidosApiController//BuscarPorGrupo
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PorGrupo(BusquedaPartidoViewModel vm)
@@ -173,7 +173,7 @@ namespace WebMVC.Controllers
         }
 
 
-        // GET: /
+        // GET: /PartidosApiController/PorSeleccion
         public ActionResult PorSeleccion()
         {
             BusquedaPartidoViewModel vm = new BusquedaPartidoViewModel();
@@ -182,7 +182,7 @@ namespace WebMVC.Controllers
             return View(vm);
         }
 
-        // POST: /
+        // POST:/PartidosApiController/PorSeleccion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PorSeleccion(BusquedaPartidoViewModel vm)
@@ -215,7 +215,7 @@ namespace WebMVC.Controllers
             }
         }
 
-        // GET: /
+        // GET: PartidosApiController/EntreFechas
         public ActionResult EntreFechas()
         {
             BusquedaPartidoViewModel vm = new BusquedaPartidoViewModel();
@@ -224,7 +224,7 @@ namespace WebMVC.Controllers
             return View(vm);
         }
 
-        // POST: /
+        // POST: /PartidosApiController/EntreFechas
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EntreFechas(BusquedaPartidoViewModel vm)
@@ -233,9 +233,9 @@ namespace WebMVC.Controllers
 
             try
             {
-                HttpClient cli = new HttpClient();
-                Task<HttpResponseMessage> t1 = cli.GetAsync(UrlApiPartidos + "/desde/" + vm.Desde + "/hasta/" + vm.Hasta);
-                HttpResponseMessage res = t1.Result;
+                HttpClient cliente = new HttpClient();
+                Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlApiPartidos + "/desde/" + vm.Desde + "/hasta/" + vm.Hasta);
+                HttpResponseMessage res = tarea1.Result;
                 string txt = ObtenerBody(res);
                 if (res.IsSuccessStatusCode)
                 {
@@ -247,6 +247,7 @@ namespace WebMVC.Controllers
                 else
                 {
                     ViewBag.Error = "No se obtienen partidos. Error: " + res.ReasonPhrase + txt;
+                   // vm.PartidoFixture = CUListadoPartidoFixture.ObtenerListado();
                     return View(vm);
                 }
             }
@@ -257,7 +258,7 @@ namespace WebMVC.Controllers
             }
         }
 
-        // GET: /
+        // GET: /PartidosApiController/PorCodigoPais
         public ActionResult PorCodigoPais()
         {
             BusquedaPartidoViewModel vm = new BusquedaPartidoViewModel();
@@ -265,7 +266,7 @@ namespace WebMVC.Controllers
             return View(vm);
         }
 
-        // POST: /
+        // POST: //PartidosApiController/PorCodigoPais
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PorCodigoPais(BusquedaPartidoViewModel vm)

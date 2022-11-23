@@ -91,6 +91,7 @@ namespace WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(SeleccionViewModel vm)
         {
+            vm.Paises = CUListadoPaises.ObtenerListado();
             try
             {
                 vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
@@ -141,7 +142,6 @@ namespace WebMVC.Controllers
         {
             try
             {
-
                 HttpClient cliente = new HttpClient();
                 Task<HttpResponseMessage> tarea1 = cliente.PutAsJsonAsync(UrlApiSelecciones + "/" + vm.Seleccion.Id, vm.Seleccion);
                 tarea1.Wait();

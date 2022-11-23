@@ -1,80 +1,75 @@
 ﻿@model IEnumerable<LogicaNegocio.Dominio.PartidoFixture>
 
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
+<h1>Partidos</h1>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <p>
-        <a asp-action="PorGrupo">Busqueda Por Grupo</a>
-    </p>    
-    <p>
-        <a asp-action="EntreFechas">Busqueda Por Fecha</a>
-    </p>    
-    <p>
-        <a asp-action="PorSeleccion">Busqueda Por Seleccion</a>
-    </p>    
-    <p>
-        <a asp-action="PorCodigoPais">Busqueda Por Codigo Pais</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IdEquipoUno)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IdEquipoDos)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Fecha)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Hora)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdEquipoUno)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdEquipoDos)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Fecha)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Hora)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</body>
-</html>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+                <a asp-action="Create">Create New</a>
+            </p>
+            <p>
+                <a asp-action="PorGrupo">Busqueda Por Grupo</a>
+            </p>
+            <p>
+                <a asp-action="EntreFechas">Busqueda Por Fecha</a>
+            </p>
+            <p>
+                <a asp-action="PorSeleccion">Busqueda Por Seleccion</a>
+            </p>
+            <p>
+                <a asp-action="PorCodigoPais">Busqueda Por Codigo Pais</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdEquipoUno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdEquipoDos)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Fecha)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Hora)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdEquipoUno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdEquipoDos)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Hora)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+

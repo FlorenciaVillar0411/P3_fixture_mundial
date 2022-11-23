@@ -12,6 +12,7 @@ namespace WebMVC.Models
         public IEnumerable<Grupo> Grupos { get; set; }
         public IEnumerable<Pais> Paises { get; set; }
         public Seleccion Seleccion { get; set; }
+
         public string NombreSeleccion { get; set; }
         public int IdGrupo { get; set; }
         public int IdPaisSeleccionado { get; set; }

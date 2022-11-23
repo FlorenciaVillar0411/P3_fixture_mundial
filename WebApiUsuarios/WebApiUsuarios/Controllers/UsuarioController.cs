@@ -58,7 +58,7 @@ namespace WebApiUsuarios.Controllers
 
                 Rol rol = new Rol();
                 rol.Nombre = usuario.Rol.Nombre;
-                usuario.Rol.Nombre = "Invitado";
+           
                 
                 Repo.Add(usuario);
                 return Ok();

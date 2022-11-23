@@ -19,15 +19,15 @@ namespace LogicaNegocio
 
         private void ValidarRol()
         {
-            if(Nombre == "Admin")
+            if(Nombre.Equals("Admin"))
             {
                 Descripcion = "Acceso a todas las funcionalidades sin excepcion";
-            } else if(Nombre == "Apostador")
+            } else if(Nombre.Equals("Apostador"))
             {
                 Descripcion = "Acceso a las busquedas y a obtener un grupo con su fixture";
 
             }
-            else if (Nombre == "Invitado")
+            else if (Nombre.Equals("Invitado"))
             {
                 Descripcion = "Acceso a fixture, buscar una seleccion y al listado de todas las selecciones";
             }

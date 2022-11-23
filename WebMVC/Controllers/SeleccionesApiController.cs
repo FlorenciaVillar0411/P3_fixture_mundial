@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebMVC.Models;
-using DTOs;
 using WebMVC.Filtros;
 
 
@@ -30,6 +29,7 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController
+        [Autorizacion("Invitado", "Admin")]
         public ActionResult Index() //queremos el listado
         {
             try
@@ -82,6 +82,7 @@ namespace WebMVC.Controllers
 
 
         // GET: SeleccionesWebapiController/Create
+        [Autorizacion("Admin")]
         public ActionResult Create()
         {
             SeleccionViewModel vm = new SeleccionViewModel();
@@ -92,8 +93,10 @@ namespace WebMVC.Controllers
         // POST: SeleccionesWebapiController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Autorizacion("Admin")]
         public ActionResult Create(SeleccionViewModel vm)
         {
+            vm.Paises = CUListadoPaises.ObtenerListado();
             try
             {
                 vm.Seleccion.PaisId = vm.IdPaisSeleccionado;
@@ -126,6 +129,7 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController/Edit/5
+        [Autorizacion("Admin")]
         public ActionResult Edit(int id)
         {
             Seleccion seleccion = BuscarPorId(id);
@@ -140,11 +144,11 @@ namespace WebMVC.Controllers
         // POST: SeleccionesApiController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Autorizacion("Admin")]
         public ActionResult Edit(SeleccionViewModel vm)
         {
             try
             {
-
                 HttpClient cliente = new HttpClient();
                 Task<HttpResponseMessage> tarea1 = cliente.PutAsJsonAsync(UrlApiSelecciones + "/" + vm.Seleccion.Id, vm.Seleccion);
                 tarea1.Wait();
@@ -169,6 +173,7 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController/Delete/5
+        [Autorizacion("Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -190,6 +195,7 @@ namespace WebMVC.Controllers
         // POST: SeleccionesApiController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Autorizacion("Admin")]
         public ActionResult Delete(int id, Seleccion s)
         {
             HttpClient cliente = new HttpClient();
@@ -210,6 +216,8 @@ namespace WebMVC.Controllers
                 return View();
             }
         }
+
+        [Autorizacion("Admin", "Invitado", "Apostador")]
         private Seleccion BuscarPorId(int id)
         {
             Seleccion s = null;
@@ -236,15 +244,19 @@ namespace WebMVC.Controllers
             return s;
         }
 
-        // GET: Paises/BuscarPorGrupo
+        [Autorizacion("Admin", "Invitado", "Apostador")]
         public ActionResult BuscarId(string grupo)
         {
-            return View(new Seleccion());
+            Seleccion s = new Seleccion();
+            s.Pais = new Pais();
+            s.Pais.Imagen = "";
+            return View(s);
         }
 
         // POST: Paises/Buscar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Autorizacion("Admin", "Invitado", "Apostador")]
         public ActionResult BuscarId(int id, Seleccion seleccion)
         {
             try
@@ -260,11 +272,10 @@ namespace WebMVC.Controllers
         }
 
         // GET: Paises/BuscarPorGrupo
-        [Autorizacion("apostador", "admin")]
+        [Autorizacion("Admin", "Invitado", "Apostador")]
         public ActionResult PuntajePorGrupo(string grupo)
         {
             GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();
-            vm.Grupos = CUListadoGrupos.ObtenerListado();
             vm.Selecciones = new List<DTOSeleccion>();
             return View(vm);
         }
@@ -272,9 +283,9 @@ namespace WebMVC.Controllers
         // POST: Paises/Buscar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Autorizacion("Admin", "Invitado", "Apostador")]
         public ActionResult PuntajePorGrupo(GrupoSeleccionViewModel vm)
         {
-            vm.Grupos = CUListadoGrupos.ObtenerListado();
             vm.Selecciones = new List<DTOSeleccion>();
             try
             {

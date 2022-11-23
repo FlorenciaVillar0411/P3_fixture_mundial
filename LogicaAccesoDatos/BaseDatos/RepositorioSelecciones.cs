@@ -70,10 +70,12 @@ namespace LogicaAccesoDatos.BaseDatos
             try
             {
                 Seleccion buscada = Contexto.Selecciones.Find(id);
+                if (buscada != null) { 
                 Pais pais = Contexto.Paises.Find(buscada.PaisId);
                 Grupo grupo = Contexto.Grupos.Find(buscada.IdGrupo);
                 buscada.Pais = pais;
                 buscada.Grupo = grupo;
+                }
                 return buscada;
             }
             catch (Exception e)

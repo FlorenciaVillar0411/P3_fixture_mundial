@@ -8,12 +8,9 @@
         <form asp-action="PuntajePorGrupo">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <select id="Grupos" name="NombreGrupo" asp-for="NombreGrupo">
-                    @foreach (var grupo in Model.Grupos)
-                    {
-                    <option value="@grupo.Nombre">@grupo.Nombre</option>
-                    }
-                </select>
+                <label asp-for="NombreGrupo">Grupo: </label>
+                <input id="Grupos" name="NombreGrupo" asp-for="NombreGrupo">
+                   
             </div>
 
             <div class="form-group">

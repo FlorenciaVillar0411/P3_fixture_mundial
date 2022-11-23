@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebMVC.Models;
+using DTOs;
+using WebMVC.Filtros;
+
 
 namespace WebMVC.Controllers
 {
@@ -257,6 +260,7 @@ namespace WebMVC.Controllers
         }
 
         // GET: Paises/BuscarPorGrupo
+        [Autorizacion("apostador", "admin")]
         public ActionResult PuntajePorGrupo(string grupo)
         {
             GrupoSeleccionViewModel vm = new GrupoSeleccionViewModel();

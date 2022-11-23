@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LogicaNegocio
 {
-    public class Usuario: IValidacion 
+    public class Usuario : IValidacion
     {
         public int Id { get; set; }
         [EmailAddress]
@@ -36,9 +36,40 @@ namespace LogicaNegocio
 
         private void ValidarPassword()
         {
-            
-        }
+            if(Password.Length < 8)
+            {
+                throw new Exception("Password corta");
+            }
+            bool min = false;
+            bool may = false;
+            bool num = false;
+            bool esp = false;
 
-        
+            for (int i = 0; i < Password.Length; i++)
+            {
+                char c = Password[i];
+                if (Char.IsLetter(c) && c.ToString().ToLower() == c.ToString())
+                {
+                    min = true;
+                }
+                else if (Char.IsLetter(c) && c.ToString().ToUpper() == c.ToString())
+                {
+                    may = true;
+                }
+                else if (Char.IsNumber(c))
+                {
+                    num = true;
+                }
+                else if (Password != null && !Password.Contains(".") || !Password.Contains(",") || !Password.Contains("!"))
+                {
+                    esp = true;
+                }
+            }
+
+            if (!min || !may || !num || !esp)
+            {
+                throw new Exception("Password inválida");
+            }
+        }
     }
 }

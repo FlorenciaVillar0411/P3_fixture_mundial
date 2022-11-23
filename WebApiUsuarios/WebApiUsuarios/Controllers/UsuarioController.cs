@@ -57,9 +57,16 @@ namespace WebApiUsuarios.Controllers
                 if (usuario == null) return BadRequest();
 
                 Rol rol = new Rol();
-                rol.Nombre = usuario.Rol.Nombre;
-           
-                
+                if (usuario.Rol.Nombre != null) 
+                { 
+                    rol.Nombre = usuario.Rol.Nombre; 
+                }
+                else
+                {
+                    rol.Nombre = "Invitado";
+                }
+                usuario.Rol = rol;
+
                 Repo.Add(usuario);
                 return Ok();
             }

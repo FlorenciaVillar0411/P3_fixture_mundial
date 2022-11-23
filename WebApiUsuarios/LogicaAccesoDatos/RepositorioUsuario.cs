@@ -23,8 +23,7 @@ namespace LogicaAccesoDatos
             try
             {
                 nuevo.Validar();
-                nuevo.Rol.Validar();
-                Contexto.Roles.Add(nuevo.Rol);
+                nuevo.Rol = Contexto.Roles.Where(r => r.Nombre == nuevo.Rol.Nombre).FirstOrDefault();
                 Contexto.Usuarios.Add(nuevo);
                 Contexto.SaveChanges();
             }

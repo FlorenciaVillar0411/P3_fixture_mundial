@@ -1,0 +1,81 @@
+﻿@model WebMVC.Models.GrupoSeleccionViewModel
+@{ ViewData["Title"] = "PuntajePorGrupo"; }
+
+
+<h1>Puntaje Grupos</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PuntajePorGrupo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <select id="Grupos" name="NombreGrupo" asp-for="NombreGrupo">
+                    @foreach (var grupo in Model.Grupos)
+                    {
+                    <option value="@grupo.Nombre">@grupo.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<h4>Selecciones</h4>
+<hr />
+<div>
+    @ViewBag.Error
+</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id Seleccion
+            </th>
+            <th>
+                Nombre Seleccion
+            </th>
+            <th>
+               Puntaje
+            </th>
+            <th>
+                GAF
+            </th>
+            <th>
+                GEC
+            </th>
+            <th>
+                DG
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Selecciones)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Puntaje)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolesAFavor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolesEnContra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiferenciaGoles)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
